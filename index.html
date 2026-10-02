@@ -480,7 +480,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="exam-code" id="exam-code" style="display:none">
         <textarea id="exam-code-input" data-code="1" rows="9" spellcheck="false" placeholder="# 在下面写出完整 Python 代码，然后点「运行测试」"></textarea>
         <div class="stdin-box"><label>程序输入（可选 · 题目需要键盘输入时填这里，每行一组）</label><textarea id="exam-stdin" rows="2" spellcheck="false" placeholder="例如：3 4"></textarea></div>
-        <div class="hint" id="exam-hint">写完点运行测试，系统会真实运行你的代码并与期望输出比对（别写死循环哦）。需要键盘输入的题，点运行后在弹窗里按提示输入。</div>
+        <div class="hint" id="exam-hint">答题时可随时点「运行」查看你程序的真实输出（不会显示标准答案）。交卷后系统会真实运行你的代码，并用多组不同输入差分判分——直接把结果常量写死（如 print(2)）不计分，必须真正算出答案。需要键盘输入的题，在输入框里填好再运行。</div>
         <button class="btn violet" onclick="examRunCode()">运行测试</button>
         <div class="exam-fb" id="exam-fb"></div>
       </div>
@@ -508,7 +508,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="exam-code" id="grade-code" style="display:none">
         <textarea id="grade-code-input" data-code="1" rows="9" spellcheck="false" placeholder="# 在下面写出完整 Python 代码，然后点「运行测试」"></textarea>
         <div class="stdin-box"><label>程序输入（可选 · 题目需要键盘输入时填这里，每行一组）</label><textarea id="grade-stdin" rows="2" spellcheck="false" placeholder="例如：16"></textarea></div>
-        <div class="hint" id="grade-hint">写完点运行测试，系统会真实运行你的代码并与期望输出比对（别写死循环哦）。需要键盘输入的题，点运行后按提示输入。</div>
+        <div class="hint" id="grade-hint">答题时可随时点「运行」查看你程序的真实输出。交卷后系统会用多组不同输入真机差分判分，直接写死答案不计分。需要键盘输入的题，在输入框里填好再运行。</div>
         <button class="btn violet" onclick="gradeRunCode()">运行测试</button>
         <div class="exam-fb" id="grade-fb"></div>
       </div>
@@ -5220,6 +5220,122 @@ function bindEditorsIn(root){
   (root||document).querySelectorAll("textarea[data-code='1']").forEach(el=>{if(!el._smart){el._smart=1;smartEditor(el)}});
 }
 function normOut(s){return String(s||"").trim().split(/\r?\n/).map(l=>l.trim()).join("\n").replace(/, /g,",")}
+
+/* ================= 代码题判分引擎：防写死答案 + 参考解差分测试 =================
+   解决两个问题：
+   1) 不能用 print(2) 这种“直接把答案常量输出”蒙混过关——必须真的去计算；
+   2) 有输入的题，用“参考程序”在多组不同输入下做差分，写死单一结果在别的输入上必错。 */
+function stripComments(code,lang){
+  let s=String(code);
+  if(lang==="py"){s=s.replace(/(^|[^\\])#[^\n]*/g,"$1");}
+  else{s=s.replace(/\/\*[\s\S]*?\*\//g," ").replace(/(^|[^:])\/\/[^\n]*/g,"$1");}
+  return s;
+}
+function stripLiterals(s){ // 去掉字符串/字符/模板字面量内容，只留程序骨架
+  return s.replace(/`(?:\\.|[^`\\])*`/g,'""')
+          .replace(/"(?:\\.|[^"\\])*"/g,'""')
+          .replace(/'(?:\\.|[^'\\])*'/g,'""');
+}
+function numericAnswer(want){
+  const w=String(want||"").trim();
+  return /\d/.test(w)&&/^-?[\d]+(\.\d+)?(\s*[\s,;、-]\s*-?[\d]+(\.\d+)?)*$/.test(w);
+}
+const OUT_FN={py:["print"],java:["print","println","printf"],cpp:["printf","puts","fprintf","fputs","putchar","cout","wprintf"]};
+const HARMLESS_CALL={ // 这些名字出现不算“真正动手计算”（输出壳/类型转换/字面量包装/程序入口）
+  print:1,println:1,printf:1,puts:1,fprintf:1,fputs:1,putchar:1,cout:1,wprintf:1,echo:1,write:1,
+  main:1,
+  str:1,int:1,float:1,double:1,long:1,short:1,byte:1,char:1,bool:1,boolean:1,number:1,
+  integer:1,string:1,valueof:1,parseint:1,parselong:1,parsefloat:1,parsedouble:1,tostring:1,new:1
+};
+/* 判断代码是否“真的做了计算/处理”，而不是单纯把一个常量吐出来 */
+function codeHasMeans(rawCode,lang){
+  let c0=stripComments(rawCode,lang);
+  if(lang!=="py")c0=c0.replace(/^[ \t]*#\s*(include|import)\b[^\n]*/gm," "); // 去掉 #include <stdio.h>，避免尖括号被当成运算符
+  const skel=stripLiterals(c0).replace(/<<|>>/g," "); // 忽略 C++ 流插入/提取（cout<<2）
+  if(/[+\-*/%<>!&|^~?]/.test(skel))return true;        // 出现运算/比较/逻辑
+  if(/\b(for|while|if|else|switch|case|catch)\b/.test(skel))return true; // 控制结构（def 不算，函数体有没有手段另算）
+  if(lang==="py"&&/\binput\s*\(/.test(c0))return true;
+  if(lang==="java"&&/Scanner|BufferedReader|nextInt|nextLine|nextDouble|readLine|next\s*\(/.test(c0))return true;
+  if(lang==="cpp"&&/\bcin\b|\bscanf\s*\(|getline|ifstream|ofstream|fopen|fscanf/.test(c0))return true;
+  // 扫描“调用”前，先把函数/方法【定义头】删掉，否则 main(){…}、def f(): 里的名字会被误当成一次调用
+  const noDef=skel
+    .replace(/\bdef\s+[A-Za-z_]\w*\s*\([^:]*\)\s*(?:->[^:]+)?:/g," ")   // Python：def name(...)[->t]:
+    .replace(/[A-Za-z_]\w*\s*\([^(){};]*\)\s*(?:const\s*)?\{/g,"{");    // C/Java：name(params){ （调用后面是 ; 不是 {，不受影响）
+  const probe=noDef.replace(/[{}();]/g," ");
+  const re=/[A-Za-z_]\w*\s*\(/g;let mm;
+  while((mm=re.exec(probe))){
+    const name=mm[0].replace(/\s*\($/,"").toLowerCase();
+    if(!HARMLESS_CALL[name])return true;   // 任意非输出壳/非类型转换/非入口的调用，都算真的用了手段（count/len/split/sum…）
+  }
+  return false;
+}
+function ansLiteralPresent(rawCode,want){
+  const toks=String(want).match(/-?\d+(\.\d+)?/g)||[];
+  const code=stripComments(rawCode);
+  return toks.some(t=>{const e=t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    return new RegExp("(^|[^\\w.])"+e+"($|[^\\w.])").test(code);});
+}
+/* 是否属于“直接把数字答案写死输出” */
+function isHardcoded(q,rawCode,lang){
+  const want=normOut(q.out);
+  if(!numericAnswer(want))return false;          // 文本类答案（如 Hello World）允许直接输出
+  const code=String(rawCode||"");
+  if(!ansLiteralPresent(code,want))return false; // 代码里压根没出现答案数字 → 交给输出比对
+  return !codeHasMeans(code,lang);              // 出现了答案数字，却没有任何计算手段 → 写死
+}
+/* 由标准输入生成一组“数字扰动”变体（只改数字、保持结构），用于差分 */
+function variantStdin(stdin){
+  const s=String(stdin||"");
+  if(!/\d/.test(s))return null;
+  let out=s.replace(/-?\d+(\.\d+)?/g,m=>{
+    const n=Number(m),d=3+Math.floor(Math.random()*7);
+    return String(n<0?-d:n+d);
+  });
+  return out===s?null:out;
+}
+const _refRunCache={};
+function cacheRun(lang,sol,stdin){
+  const key=lang+""+sol+""+(stdin||"");
+  if(_refRunCache[key]!==undefined)return Promise.resolve(_refRunCache[key]);
+  return runCode(sol,stdin||"").then(r=>{_refRunCache[key]=r;return r;});
+}
+/* 统一判分。priorOut：考试中途已运行得到的“原始输入下用户输出”，可复用，省一次云端编译。
+   resolve: {ok, reason, out, err}  reason: ok/hardcoded/err/mismatch/variant/norun */
+async function judgeCode(q,userCode,lang,prior,doDiff){
+  if(!userCode||!String(userCode).trim())return {ok:false,reason:"norun"};
+  if(dangerous(userCode))return {ok:false,reason:"err",err:"代码含无法安全判分的写法（如死循环）"};
+  if(isHardcoded(q,userCode,lang))return {ok:false,reason:"hardcoded"};
+  const stdin=q._in||q.stdin||"";
+  // 原始输入下的用户输出
+  let u0=prior;
+  if(u0===undefined||u0===null){
+    const r0=await runCode(userCode,stdin);
+    if(r0.noSk)return {ok:false,reason:"err",err:"代码运行器未就绪"};
+    if(r0.net)return {ok:false,reason:"err",err:r0.err};
+    if(r0.err)return {ok:false,reason:"err",err:String(r0.err).slice(0,300)};
+    u0=r0.out;
+  }
+  if(normOut(u0)!==normOut(q.out))return {ok:false,reason:"mismatch",out:u0};
+  // 有标准输入：再做一组扰动输入的差分，防止只针对样例写死（练习场景 doDiff=false 可关闭以省云端时间）
+  if(doDiff!==false&&stdin&&/\d/.test(stdin)){
+    const v=variantStdin(stdin);
+    if(v){
+      const [rv,ru]=await Promise.all([cacheRun(lang,q.solution,v),runCode(userCode,v)]);
+      if(rv&&!rv.err&&!rv.net&&ru&&!ru.err&&!ru.net){
+        if(normOut(rv.out)!==normOut(q.out)&&normOut(ru.out)!==normOut(rv.out))
+          return {ok:false,reason:"variant",out:u0};
+      }
+    }
+  }
+  return {ok:true,reason:"ok",out:u0};
+}
+const JUDGE_TEXT={
+  hardcoded:"判定不通过：不能直接把结果常量写在输出里（例如直接 print(2)），必须用代码读入数据并通过运算、调用方法等方式算出答案。",
+  mismatch:"判定不通过：程序在题目给定输入下的输出与标准答案不一致。",
+  variant:"判定不通过：只在题目给出的这一组数据上凑对了，换成另一组合法输入结果就错了——说明逻辑没有真正通用。",
+  norun:"未作答（没有可运行的代码）。",
+  err:"程序无法正常运行或含不安全写法。"
+};
 function runPy(code,stdin){
   return new Promise(resolve=>{
     if(!window.Sk)return resolve({noSk:true});
@@ -5270,11 +5386,19 @@ async function submitCode(){
     $("quiz-next").disabled=true;
     return;
   }
-  const ok=normOut(res.out)===normOut(q.out);
+  // 练习也要防写死：用统一判分（关闭多输入差分以节省云端时间），原始输出复用本次运行结果
+  const jr=await judgeCode(q,code,curLang,res.out,false);
+  const ok=jr.ok;
   quiz._codeManual=ok?"pass":"fail";
   if(ok){
     quiz.correct++;
     fb.innerHTML="<div class='fb-t good'>✓ 代码运行通过！输出正确</div><div class='lab'>你的输出</div><div class='code'>"+esc(res.out||"（空）")+"</div>";
+  }else if(jr.reason==="hardcoded"){
+    fb.innerHTML="<div class='fb-t bad'>✗ 不能直接把答案写死</div>"+
+      "<div class='wa' style='color:var(--gold)'>"+esc(JUDGE_TEXT.hardcoded)+"</div>"+
+      "<div class='lab'>期望输出</div><div class='code'>"+esc(q.out)+"</div>"+
+      "<div class='lab'>文字解析</div><div>"+esc(q.explain)+"</div>"+
+      "<div class='lab'>参考代码</div><div class='code'>"+esc(q.solution)+"</div>";
   }else{
     fb.innerHTML="<div class='fb-t bad'>✗ 输出不对，看看解析</div>"+
       "<div class='lab'>你的输出</div><div class='code'>"+esc(res.out||"（空）")+"</div>"+
@@ -5834,9 +5958,9 @@ function renderExamFb(i){
   const r=exam.codes[i],fb=$("exam-fb");
   if(!r){fb.innerHTML="";return;}
   if(r.err){fb.innerHTML="<div class='fb-t bad'>运行报错</div><div class='code'>"+esc(r.err.slice(0,300))+"</div>";return;}
-  fb.innerHTML="<div class='fb-t "+(r.ok?"good":"bad")+"'>"+(r.ok?"✓ 运行通过，输出正确":"✗ 输出不对")+"</div>"+
-    "<div class='lab'>你的输出</div><div class='code'>"+esc(r.out||"（空）")+"</div>"+
-    (r.ok?"":"<div class='lab'>期望输出</div><div class='code'>"+esc(exam.qs[i].out)+"</div>");
+  // 考试中途只展示“你的程序实际输出了什么”，不显示对错与期望输出（交卷后才统一判分）
+  fb.innerHTML="<div class='fb-t'>运行结果（这是你程序的真实输出）</div>"+
+    "<div class='lab'>你的输出</div><div class='code'>"+esc(r.out===""||r.out==null?"（程序没有输出任何内容）":r.out)+"</div>";
 }
 async function examRunCode(){
   const i=exam.i,q=exam.qs[i];if(q.type!=="code")return;
@@ -5846,36 +5970,51 @@ async function examRunCode(){
   const fb=$("exam-fb");
   fb.innerHTML="<div class='fb-t'>"+(curLang==="py"?"运行中…":"云端编译运行中…（约 2~6 秒）")+"</div>";
   const res=await runCode(code,$("exam-stdin")?$("exam-stdin").value:"");
-  if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div><div class='lab'>期望输出</div><div class='code'>"+esc(q.out)+"</div><div class='lab'>参考代码</div><div class='code'>"+esc(q.solution)+"</div>";return;}
+  if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div>";return;}
   if(res.net){fb.innerHTML="<div class='fb-t bad'>"+esc(res.err)+"</div>";return;}
   if(res.err){exam.codes[i]={code,err:String(res.err).slice(0,300)};renderExamFb(i);return;}
-  const ok=normOut(res.out)===normOut(q.out);
-  exam.codes[i]={code,out:res.out,ok};
+  exam.codes[i]={code,out:res.out};   // 只记录代码与真实输出，对错交卷时用差分判分
   renderExamFb(i);renderExamNav();
-  if(ok)toast("✓ 运行通过");
 }
-function examSubmit(auto){
+async function examSubmit(auto){
   if(exam.done)return;
   exam.done=true;
   if(exam.timer)clearInterval(exam.timer);
+  // 先弹判卷进度：操作题要真机/云端用多组数据差分判分
+  showModal("result-modal");
+  $("res-score").innerHTML="<div class='big' style='font-size:22px'>判卷中…</div>";
+  $("res-title").textContent="正在用多组数据真机判定操作题，请稍候";
+  $("res-badge").style.display="none";
+  $("res-sub").textContent=curLang!=="py"?"云端编译判分约需几十秒，请勿关闭页面":"正在逐题核对…";
+  $("res-wrong").innerHTML="";
+  $("res-actions").innerHTML="";
+
   let score=0;const wrong=[];
-  exam.qs.forEach((q,i)=>{
+  for(let i=0;i<exam.qs.length;i++){
+    const q=exam.qs[i];
     if(q.type!=="code"){
       if(exam.ans[i]===q.a)score+=1;
       else wrong.push({i,q,ans:exam.ans[i],code:false});
     }else{
       const pts=i<43?5:(i<45?10:25);
       const r=exam.codes[i];
-      if(r&&r.ok)score+=pts;
-      else wrong.push({i,q,code:true,got:r});
+      const prior=r&&!r.err?r.out:undefined;
+      $("res-wrong").innerHTML="<div style='color:var(--cyan)'>正在判定操作题 第 "+(i+1)+" / 46 题…</div>";
+      const jr=await judgeCode(q,r?r.code:"",curLang,prior);
+      if(jr.ok){score+=pts;}
+      else wrong.push({i,q,code:true,reason:jr.reason,out:jr.out,err:jr.err});
     }
-  });
+  }
   const pass=score>=60;
   let wl=wrong.map(w=>{
     if(w.code){
-      const r=w.got;
+      const r=w;
+      const detail=r.reason==="err"&&r.err?"<div class='code'>"+esc(r.err.slice(0,200))+"</div>"
+        :r.out!=null?"<div class='lab'>你的输出</div><div class='code'>"+esc(r.out)+"</div>"+
+          "<div class='lab'>期望输出</div><div class='code'>"+esc(w.q.out)+"</div>":"<div>未作答或未运行</div>";
       return "<div class='wi'><b>操作题 #"+(w.i+1)+"（"+(w.i<43?5:(w.i<45?10:25))+"分）· 未通过</b>"+
-        (r&&r.err?"<div class='code'>"+esc(r.err.slice(0,200))+"</div>":r&&r.out!=null?"<div class='lab'>你的输出</div><div class='code'>"+esc(r.out)+"</div><div class='lab'>期望输出</div><div class='code'>"+esc(w.q.out)+"</div>":"<div>未作答</div>")+
+        "<div class='wa' style='color:var(--gold)'>"+esc(JUDGE_TEXT[r.reason]||JUDGE_TEXT.mismatch)+"</div>"+
+        detail+
         "<div class='lab'>参考代码</div><div class='code'>"+esc(w.q.solution)+"</div><div class='lab'>解析</div><div>"+esc(w.q.explain)+"</div></div>";
     }
     return "<div class='wi'><b>选择题 #"+(w.i+1)+" · 未答对</b><div class='q'>"+esc(w.q.q)+"</div>"+
@@ -5887,11 +6026,10 @@ function examSubmit(auto){
   $("res-title").textContent=pass?"恭喜通过！模拟二级考试合格":"未通过 · 再练练吧";
   $("res-badge").style.display=pass?"block":"none";
   $("res-badge").innerHTML="<span class='tag pass'>≥60 分 合格</span>";
-  $("res-sub").innerHTML="答对选择题 "+(40-wrong.filter(w=>!w.code).length)+"/40 · 操作题通过 "+(6-wrong.filter(w=>w.code).length)+"/6"+(auto?" · 时间到自动交卷":"");
+  $("res-sub").innerHTML="答对选择题 "+(40-wrong.filter(w=>!w.code).length)+"/40 · 操作题通过 "+(6-wrong.filter(w=>w.code).length)+"/6"+(auto?" · 时间到自动交卷":"")+"（操作题已用多组数据判定，直接写死答案不计分）";
   $("res-wrong").innerHTML=wrong.length?"<div class='sec-t'>错题解析</div>"+wl:"<div style='color:var(--green);font-weight:800;margin-top:10px'>全部答对，太强了！</div>";
   $("res-actions").innerHTML="<button class='btn violet' onclick='closeModal(\"result-modal\");renderHome();show(\"screen-home\")'>返回主页</button>"+
     "<button class='btn ghost' onclick='closeModal(\"result-modal\");startExam()'>再考一次</button>";
-  showModal("result-modal");
   exam=null;
 }
 function examNext(){if(exam.i<exam.qs.length-1){exam.i++;renderExamNav();renderExamQ();}}
@@ -5999,9 +6137,8 @@ function renderGradeFb(i){
   const r=grade.codes[i],fb=$("grade-fb");
   if(!r){fb.innerHTML="";return;}
   if(r.err){fb.innerHTML="<div class='fb-t bad'>运行报错</div><div class='code'>"+esc(r.err.slice(0,300))+"</div>";return;}
-  fb.innerHTML="<div class='fb-t "+(r.ok?"good":"bad")+"'>"+(r.ok?"✓ 运行通过，输出正确":"✗ 输出不对")+"</div>"+
-    "<div class='lab'>你的输出</div><div class='code'>"+esc(r.out||"（空）")+"</div>"+
-    (r.ok?"":"<div class='lab'>期望输出</div><div class='code'>"+esc(grade.qs[i].out)+"</div>");
+  fb.innerHTML="<div class='fb-t'>运行结果（这是你程序的真实输出）</div>"+
+    "<div class='lab'>你的输出</div><div class='code'>"+esc(r.out===""||r.out==null?"（程序没有输出任何内容）":r.out)+"</div>";
 }
 async function gradeRunCode(){
   const i=grade.i,q=grade.qs[i];if(q.type!=="code")return;
@@ -6011,28 +6148,38 @@ async function gradeRunCode(){
   const fb=$("grade-fb");
   fb.innerHTML="<div class='fb-t'>"+(curLang==="py"?"运行中…":"云端编译运行中…（约 2~6 秒）")+"</div>";
   const res=await runCode(code,$("grade-stdin")?$("grade-stdin").value:"");
-  if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div><div class='lab'>期望输出</div><div class='code'>"+esc(q.out)+"</div><div class='lab'>参考代码</div><div class='code'>"+esc(q.solution)+"</div>";return;}
+  if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div>";return;}
   if(res.net){fb.innerHTML="<div class='fb-t bad'>"+esc(res.err)+"</div>";return;}
   if(res.err){grade.codes[i]={code,err:String(res.err).slice(0,300)};renderGradeFb(i);return;}
-  const ok=normOut(res.out)===normOut(q.out);
-  grade.codes[i]={code,out:res.out,ok};
+  grade.codes[i]={code,out:res.out};
   renderGradeFb(i);renderGradeNav();
-  if(ok)toast("✓ 运行通过");
 }
-function gradeSubmit(){
+async function gradeSubmit(){
   if(grade.done)return;
   grade.done=true;
+  showModal("result-modal");
+  $("res-score").innerHTML="<div class='big' style='font-size:22px'>评测判分中…</div>";
+  $("res-title").textContent="正在用多组数据真机判定编程题，请稍候";
+  $("res-badge").style.display="none";
+  $("res-sub").textContent=curLang!=="py"?"云端编译判分约需几十秒，请勿关闭页面":"正在逐题核对…";
+  $("res-wrong").innerHTML="";
+  $("res-actions").innerHTML="";
+
   let score=0;const wrong=[];const srcs=[];
-  grade.qs.forEach((q,i)=>{
+  for(let i=0;i<grade.qs.length;i++){
+    const q=grade.qs[i];
     if(q.type!=="code"){
       if(grade.ans[i]===q.a){score+=1;srcs.push(q.src||0)}
       else wrong.push({i,q,ans:grade.ans[i],code:false});
     }else{
       const r=grade.codes[i];
-      if(r&&r.ok){score+=6;srcs.push(q.src||14)}
-      else wrong.push({i,q,code:true,got:r});
+      const prior=r&&!r.err?r.out:undefined;
+      $("res-wrong").innerHTML="<div style='color:var(--cyan)'>正在判定编程题 第 "+(i+1)+" / "+grade.qs.length+" 题…</div>";
+      const jr=await judgeCode(q,r?r.code:"",curLang,prior);
+      if(jr.ok){score+=6;srcs.push(q.src||14)}
+      else wrong.push({i,q,code:true,reason:jr.reason,out:jr.out,err:jr.err});
     }
-  });
+  }
   const avgSrc=srcs.length?srcs.reduce((a,b)=>a+b,0)/srcs.length:0;
   const mid=gradeMidChapter();
   const band=gradeBand(score,avgSrc);
@@ -6042,9 +6189,12 @@ function gradeSubmit(){
   const wrongChoice=wrong.filter(w=>!w.code).length,wrongCode=wrong.filter(w=>w.code).length;
   let wl=wrong.map(w=>{
     if(w.code){
-      const r=w.got;
+      const detail=w.reason==="err"&&w.err?"<div class='code'>"+esc(w.err.slice(0,200))+"</div>"
+        :w.out!=null?"<div class='lab'>你的输出</div><div class='code'>"+esc(w.out)+"</div>"+
+          "<div class='lab'>期望输出</div><div class='code'>"+esc(w.q.out)+"</div>":"<div>未作答或未运行</div>";
       return "<div class='wi'><b>编程题 #"+(w.i+1)+"（6 分）· 未通过</b>"+
-        (r&&r.err?"<div class='code'>"+esc(r.err.slice(0,200))+"</div>":r&&r.out!=null?"<div class='lab'>你的输出</div><div class='code'>"+esc(r.out)+"</div><div class='lab'>期望输出</div><div class='code'>"+esc(w.q.out)+"</div>":"<div>未作答</div>")+
+        "<div class='wa' style='color:var(--gold)'>"+esc(JUDGE_TEXT[w.reason]||JUDGE_TEXT.mismatch)+"</div>"+
+        detail+
         "<div class='lab'>参考代码</div><div class='code'>"+esc(w.q.solution)+"</div><div class='lab'>解析</div><div>"+esc(w.q.explain)+"</div></div>";
     }
     return "<div class='wi'><b>选择题 #"+(w.i+1)+" · 未答对</b><div class='q'>"+esc(w.q.q)+"</div>"+
@@ -6061,7 +6211,6 @@ function gradeSubmit(){
   $("res-wrong").innerHTML=wrong.length?"<div class='sec-t'>错题解析 · 每道错题都附讲解，看完再测一次</div>"+wl:"<div style='color:var(--green);font-weight:800;margin-top:10px'>全部答对，太强了！你就是未来的 SSS！</div>";
   $("res-actions").innerHTML="<button class='btn violet' onclick='closeModal(\"result-modal\");renderHome();show(\"screen-home\")'>返回主页</button>"+
     "<button class='btn ghost' onclick='closeModal(\"result-modal\");startGrade()'>再测一次</button>";
-  showModal("result-modal");
   grade=null;
 }
 function gradeNext(){if(grade.i<grade.qs.length-1){grade.i++;renderGradeNav();renderGradeQ();}}
