@@ -70,7 +70,7 @@ h1,h2,h3{line-height:1.25}
 .mini-lv{font-weight:900;font-style:italic;font-size:14px;color:var(--gold)}
 
 /* ========== 登录页 ========== */
-.login-hero{text-align:center;margin:6vh 0 26px}
+.login-hero{text-align:center;margin:13vh 0 28px}
 .login-hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:.06em;background:linear-gradient(120deg,var(--gold),var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 .login-hero p{color:var(--ink2);margin-top:10px;font-size:15px}
 .level-strip{display:flex;justify-content:center;gap:14px;margin-top:20px;flex-wrap:wrap}
@@ -86,6 +86,7 @@ h1,h2,h3{line-height:1.25}
 .newacct{margin:20px auto 0;max-width:760px;display:flex;gap:10px}
 .newacct input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink);font-size:16px;outline:none}
 .newacct input:focus{border-color:var(--violet)}
+.newacct .btn{flex:0 0 auto;padding:11px 26px;font-weight:800;font-size:16px;border-radius:12px}
 .login-extra{margin:14px auto 0;max-width:760px;text-align:center}
 
 /* ========== 当前语言主题色（紫 Python / 橙 Java / 蓝 C++） ========== */
@@ -149,6 +150,8 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 .pbar{flex:1;height:12px;background:rgba(255,255,255,.09);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
 .pbar>i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--gold));transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .pnum{font-size:14px;font-weight:800;color:var(--ink2);white-space:nowrap}
+.lang-card .prow{margin:2px 0 0;max-width:none}
+.lang-card .pbar{height:9px}
 .bench{margin-top:16px;color:var(--ink2);font-size:14px}
 .bench b{color:var(--gold)}
 .nextgoal{margin-top:6px;font-size:13px;color:var(--cyan)}
@@ -340,6 +343,10 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 .w-item{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:13.5px}
 .wi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:13.5px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .wi b{display:block;margin-bottom:6px;color:var(--gold)}
+.rr-your{color:var(--red);font-weight:700}
+.rr-right{color:var(--ok);font-weight:700}
+.wa{color:var(--red);font-weight:700}
+.wc{color:var(--ok);font-weight:700}
 .w-item .wq{font-weight:700;margin-bottom:6px}
 .w-item .wa{color:var(--bad);font-size:12.5px;margin:2px 0}
 .w-item .wc{color:var(--ok);font-size:12.5px;margin:2px 0}
@@ -394,7 +401,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
     <div class="acct-grid" id="acct-grid"></div>
     <div class="newacct">
       <input id="new-name" maxlength="12" placeholder="新建账号：输入你的名字，回车创建">
-      <button class="btn ghost" onclick="addAccount()">创建新账号</button>
+      <button class="btn violet" onclick="addAccount()">创建新账号</button>
     </div>
     <div class="login-extra">
 
@@ -6026,8 +6033,8 @@ async function examSubmit(auto){
         "<div class='lab'>参考代码</div><div class='code'>"+esc(w.q.solution)+"</div><div class='lab'>解析</div><div>"+esc(w.q.explain)+"</div></div>";
     }
     return "<div class='wi'><b>选择题 #"+(w.i+1)+" · 未答对</b><div class='q'>"+esc(w.q.q)+"</div>"+
-      "<div class='lab'>你的答案</div><div>"+esc(w.ans===undefined?"未作答":w.q.o[w.ans])+"</div>"+
-      "<div class='lab'>正确答案</div><div>"+esc(w.q.o[w.q.a])+"</div>"+
+      "<div class='lab'>你的答案</div><div class='rr-your'>"+esc(w.ans===undefined?"未作答":w.q.o[w.ans])+"</div>"+
+      "<div class='lab'>正确答案</div><div class='rr-right'>"+esc(w.q.o[w.q.a])+"</div>"+
       "<div class='lab'>解析</div><div>"+esc(w.q.t)+"</div></div>";
   }).join("");
   $("res-score").innerHTML="<div class='big'>"+score+"<small> / 100 分</small></div>";
@@ -6208,8 +6215,8 @@ async function gradeSubmit(){
         "<div class='lab'>参考代码</div><div class='code'>"+esc(w.q.solution)+"</div><div class='lab'>解析</div><div>"+esc(w.q.explain)+"</div></div>";
     }
     return "<div class='wi'><b>选择题 #"+(w.i+1)+" · 未答对</b><div class='q'>"+esc(w.q.q)+"</div>"+
-      "<div class='lab'>你的答案</div><div>"+esc(w.ans===undefined?"未作答":w.q.o[w.ans])+"</div>"+
-      "<div class='lab'>正确答案</div><div>"+esc(w.q.o[w.q.a])+"</div>"+
+      "<div class='lab'>你的答案</div><div class='rr-your'>"+esc(w.ans===undefined?"未作答":w.q.o[w.ans])+"</div>"+
+      "<div class='lab'>正确答案</div><div class='rr-right'>"+esc(w.q.o[w.q.a])+"</div>"+
       "<div class='lab'>解析</div><div>"+esc(w.q.t)+"</div></div>";
   }).join("");
   $("res-score").innerHTML="<div class='big'>"+score+"<small> / 100 分</small></div>";
