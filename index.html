@@ -543,7 +543,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
     <div class="code" id="kp-code"></div>
     <div class="kp-lines" id="kp-lines"></div>
     <div class="kp-demo">
-      <div class="lab">图解演示 · 运行示例，看真实输出</div>
+      <div class="lab" id="kp-svg-label">图解演示 · 运行示例，看真实输出</div>
       <div class="kp-svg" id="kp-svg"></div>
       <button class="btn violet small" onclick="runKpDemo()">运行示例代码</button>
       <div class="demo-out" id="kp-demo-out" style="display:none"></div>
@@ -5076,7 +5076,9 @@ function openKp(chId,secId,kpId){
   $("kp-exp").innerHTML=pts;
   $("kp-code").innerHTML="<div class='lab' style='font-size:12px;color:var(--ink3);font-weight:800;letter-spacing:.08em'>示例代码 · 先看懂，再点下面运行看看</div>"+esc2(kp.code);
   $("kp-lines").innerHTML=renderCodeLines(kp.code);
-  $("kp-svg").innerHTML=kpConceptSvg(kp.title);
+  const svgHtml=kpConceptSvg(kp.title);
+  $("kp-svg").innerHTML=svgHtml;
+  $("kp-svg-label").style.display=svgHtml?"":"none";
   $("kp-demo-out").style.display="none";$("kp-demo-out").innerHTML="";
   $("kp-prac-task").innerHTML="<b>任务：</b>用「"+esc(kp.title)+"」的知识写一小段能运行的代码——比如输出一句你自己的话、算一道小算术、处理一行文字。不会写就先把上面的示例抄下来改几个字，重点是动手敲一遍。";
   $("kp-prac-input").value="";
