@@ -203,11 +203,10 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 .exam-opts .opt:hover{border-color:var(--cyan)}
 .exam-opts .opt.sel{border-color:var(--gold);background:rgba(255,215,94,.08)}
 .exam-code textarea{width:100%;background:#0a0f22;border:1px solid var(--line);border-radius:12px;color:#d8e2f5;font-family:Consolas,Menlo,monospace;font-size:14px;padding:12px;box-sizing:border-box}
-/* 程序标准输入框（input / cin / Scanner） */
-.stdin-box{margin:8px 0 4px;border:1px dashed color-mix(in srgb,var(--acc1,#8f7bff) 55%,var(--line));border-radius:10px;padding:8px 10px;background:rgba(0,0,0,.18)}
-.stdin-box label{display:block;font-size:11.5px;font-weight:800;color:var(--acc1,#a78bfa);margin-bottom:5px;letter-spacing:.02em}
-.stdin-box textarea{width:100%;background:#070b18;border:1px solid var(--line);border-radius:8px;color:#bfe0ff;font-family:Consolas,Menlo,monospace;font-size:13px;padding:8px 10px;box-sizing:border-box;resize:vertical;outline:none;min-height:42px}
-.stdin-box textarea:focus{border-color:var(--acc1,#8f7bff)}
+/* 运行后结果区内联输入框（input / cin / Scanner） */
+.runin-box{margin:8px 0 4px;border:1px dashed color-mix(in srgb,var(--acc1,#8f7bff) 55%,var(--line));border-radius:10px;padding:8px 10px;background:rgba(0,0,0,.18)}
+.runin-box textarea{width:100%;background:#070b18;border:1px solid var(--line);border-radius:8px;color:#bfe0ff;font-family:Consolas,Menlo,monospace;font-size:13px;padding:8px 10px;box-sizing:border-box;resize:vertical;outline:none;min-height:42px;margin-bottom:6px}
+.runin-box textarea:focus{border-color:var(--acc1,#8f7bff)}
 .exam-code .hint{font-size:12px;color:var(--ink3);margin:8px 0}
 .exam-fb{margin-top:12px;font-size:14px}
 .exam-fb .fb-t{font-weight:900;margin-bottom:6px}
@@ -491,8 +490,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="exam-opts" id="exam-opts"></div>
       <div class="exam-code" id="exam-code" style="display:none">
         <textarea id="exam-code-input" data-code="1" rows="9" spellcheck="false" placeholder="# 在下面写出完整 Python 代码，然后点「运行测试」"></textarea>
-        <div class="stdin-box"><label>程序输入（可选 · 题目需要键盘输入时填这里，每行一组）</label><textarea id="exam-stdin" rows="2" spellcheck="false" placeholder="例如：3 4"></textarea></div>
-        <div class="hint" id="exam-hint">答题时可随时点「运行」查看你程序的真实输出（不会显示标准答案）。交卷后系统会真实运行你的代码，并用多组不同输入差分判分——直接把结果常量写死（如 print(2)）不计分，必须真正算出答案。需要键盘输入的题，在输入框里填好再运行。</div>
+        <div class="hint" id="exam-hint">答题时可随时点「运行」查看你程序的真实输出（不会显示标准答案）。交卷后系统会真实运行你的代码，并用多组不同输入差分判分——直接把结果常量写死（如 print(2)）不计分，必须真正算出答案。需要键盘输入的题，运行后会在结果区提示你输入。</div>
         <button class="btn violet" onclick="examRunCode()">运行测试</button>
         <div class="exam-fb" id="exam-fb"></div>
       </div>
@@ -519,8 +517,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="exam-opts" id="grade-opts"></div>
       <div class="exam-code" id="grade-code" style="display:none">
         <textarea id="grade-code-input" data-code="1" rows="9" spellcheck="false" placeholder="# 在下面写出完整 Python 代码，然后点「运行测试」"></textarea>
-        <div class="stdin-box"><label>程序输入（可选 · 题目需要键盘输入时填这里，每行一组）</label><textarea id="grade-stdin" rows="2" spellcheck="false" placeholder="例如：16"></textarea></div>
-        <div class="hint" id="grade-hint">答题时可随时点「运行」查看你程序的真实输出。交卷后系统会用多组不同输入真机差分判分，直接写死答案不计分。需要键盘输入的题，在输入框里填好再运行。</div>
+        <div class="hint" id="grade-hint">答题时可随时点「运行」查看你程序的真实输出。交卷后系统会用多组不同输入真机差分判分，直接写死答案不计分。需要键盘输入的题，运行后会在结果区提示你输入。</div>
         <button class="btn violet" onclick="gradeRunCode()">运行测试</button>
         <div class="exam-fb" id="grade-fb"></div>
       </div>
@@ -553,7 +550,6 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="lab">动手练一练 · 边学边练</div>
       <div class="prac-task" id="kp-prac-task"></div>
       <textarea id="kp-prac-input" data-code="1" rows="5" spellcheck="false" placeholder="# 在这里写你的代码，然后点「运行我的代码」"></textarea>
-      <div class="stdin-box"><label>程序输入（可选 · 如果代码里用了 input / cin / Scanner，把要输入的数据填这里，每行一组）</label><textarea id="kp-stdin" rows="2" spellcheck="false" placeholder="例如程序让你输入年龄，就填：16"></textarea></div>
       <div class="prac-btns">
         <button class="btn violet small" onclick="runKpPractice()">运行我的代码</button>
         <button class="btn ghost small" onclick="finishPractice()">我写好了</button>
@@ -579,7 +575,6 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
     <div class="quiz-opts" id="quiz-opts"></div>
     <div class="quiz-code" id="quiz-code">
       <textarea id="code-input" data-code="1" rows="6" spellcheck="false" placeholder="# 在这里写代码，然后点提交"></textarea>
-      <div class="stdin-box"><label>程序输入（可选 · 题目需要你从键盘读数据时，把数据填这里）</label><textarea id="q-stdin" rows="2" spellcheck="false" placeholder="每行一组输入，例如：16"></textarea></div>
       <div class="hint">写完点「提交代码」，系统会真机运行你的代码判分——必须真正算出答案，直接把结果常量写死（如 print(2)）不计分。需要键盘输入的题，把数据填到上面的输入框。</div>
       <button class="btn violet" onclick="submitCode()">提交代码</button>
     </div>
@@ -1129,18 +1124,6 @@ print(10 / 2)     # 5.0  float（/ 总是小数）`,
       Q(`"5" * 2 的结果是？`,["55","10","报错","25"],0,"字符串乘整数是重复，“5”*2=“55”。",`print("5" * 2)  # 55`),
       Q("2 + 3 * 4.0 的结果是？",["14.0","14","20.0","报错"],0,"4.0 是小数，运算结果变 float：2+12.0=14.0。","print(2 + 3 * 4.0)  # 14.0")]
     },
-{id:"3-3-3",gen:[{f:function(){return mkPrec()},n:35}],title:"运算符优先级综合",terms:[{t:"优先级",d:"先乘除后加减等计算顺序规则。"},{t:"括号优先",d:"() 里的内容最先计算。"}],
-       exp:"运算优先级从高到低：算术 > 比较（> == <）> not > and > or。所以 1 + 2 > 3 先算 1+2=3 再比较。真值里 and 比 or 优先。",
-       code:`print(1 + 2 > 3)      # False
-print(2 > 1 and 3 > 1)  # True
-print(True or False and False)  # True（先 and 后 or）`,
-       bank:[
-        Q("1 + 2 > 3 的结果是？",["False","True","报错","3"],0,"先算 1+2=3，再比 3>3 为假。","print(1 + 2 > 3)  # False"),
-        Q("2 > 1 and 3 > 1 的结果是？",["True","False","报错","1"],0,"两个条件都成立才为 True。","print(2 > 1 and 3 > 1)  # True"),
-        Q("True or False and False 的结果是？",["True","False","报错","0"],0,"先算 and：False and False=False，再 True or False=True。","print(True or False and False)  # True"),
-        Q("not True and False 的结果是？",["False","True","报错","None"],0,"not 比 and 优先：not True=False，False and False=False。","print(not True and False)  # False"),
-        Q("3 * 2 == 6 and 1 < 2 的结果是？",["True","False","报错","6"],0,"先算算术和比较：3*2=6，6==6 真，1<2 真，and 得 True。","print(3 * 2 == 6 and 1 < 2)  # True")]
-      },
      ],
    extra:[
       Q("print(1 + 2 * 3 ** 2) 的结果是？",["19","27","18","36"],0,"先幂 9，再乘 18，最后加 1 得 19。","print(1 + 2 * 3 ** 2)  # 19"),
@@ -1532,20 +1515,7 @@ print(total)   # 10`,
       Q("total = 0; for i in range(1, 4): total += i; print(total) 输出？",["6","3","10","0"],0,"1+2+3=6。","total = 0\nfor i in range(1, 4):\n    total += i\nprint(total)  # 6"),
       Q("求 1 到 100 的总和，核心循环应写？",["total += i，i 取 range(1, 101)","total = i","total += 100","i += total"],0,"遍历 1~100 累加。","total = 0\nfor i in range(1, 101):\n    total += i\nprint(total)  # 5050")]
     },
-     {id:"6-2-3",gen:[{f:function(){return mkLoopVar()},n:35}],title:"循环变量与累积",terms:[{t:"累积",d:"循环里用一个变量不断累加。"},{t:"累加器",d:"用来累计结果的变量。"}],
-       exp:"常见套路：循环里用累积变量统计。total = 0 放在循环外，循环里 total += x 累加；product = 1 累乘。注意初始化必须在循环外，否则每轮重置。",
-       code:`total = 0
-for i in range(1, 6):
-    total += i
-print(total)   # 15`,
-       bank:[
-        Q("计算 1 到 5 的和，total 应初始化为？",["0","1","5","None"],0,"累加从 0 开始。","total = 0\nfor i in range(1, 6):\n    total += i"),
-        Q("累乘时 product 应初始化为？",["1","0","2","10"],0,"累乘从 1 开始，0 乘任何数都是 0。","product = 1\nfor i in range(1, 6):\n    product *= i"),
-        Q("total 初始化放在哪里？",["循环外","循环内","print 后","函数里"],0,"必须在循环外初始化，否则每轮重置。","total = 0\nfor i in range(3):\n    total += i"),
-        Q("统计 1~100 中偶数的个数，循环里判断条件是？",["i % 2 == 0","i % 2 == 1","i > 50","i < 50"],0,"i % 2 == 0 是偶数，计数加一。","cnt = 0\nfor i in range(1, 101):\n    if i % 2 == 0:\n        cnt += 1"),
-        Q("total += i 等价于？",["total = total + i","total = i","total + i","i = total"],0,"+= 是自加，等于 total = total + i。","total += i  # total = total + i")]
-      },
-     ],
+          ],
    extra:[
       Q("n = 0; while n < 5: n += 2; print(n) 输出？",["6","5","4","2"],0,"n 依次 2、4、6，到 6 时退出。","n = 0\nwhile n < 5:\n    n += 2\nprint(n)  # 6"),
       Q("x = 3; while x > 0: x -= 1; print(x) 输出？",["0","1","-1","3"],0,"x 依次 2、1、0，0 时不满足 >0 退出。","x = 3\nwhile x > 0:\n    x -= 1\nprint(x)  # 0")]
@@ -1578,25 +1548,7 @@ print(total)   # 15`,
       Q("打印 3 行、每行 5 颗星，外层循环写？",["range(3)，内层 range(5)","range(5)，内层 range(3)","range(8)","range(15)"],0,"外层管行数 3，内层管每行星数 5。","for i in range(3):\n    for j in range(5):\n        print(\"*\", end=\"\")"),
       Q("九九乘法表适合用什么实现？",["两层嵌套循环","一个 while","if 语句","函数调用"],0,"行和列都需要循环，用嵌套 for。","for i in range(1, 10):\n    for j in range(1, 10):\n        print(i*j)")]
     },
-     {id:"6-3-3",gen:[{f:function(){return mkBreakCont2()},n:35}],title:"break 与 continue 对比",terms:[{t:"break",d:"立即结束整个循环，跳到循环后面。"},{t:"continue",d:"跳过本次循环剩余部分，进入下一次。"}],
-       exp:"break 结束整个循环，continue 只跳过当前这一轮。for i in range(10) 里：i==3 时 break 输出 0,1,2；continue 输出除了 3 之外的所有数。",
-       code:`for i in range(5):
-    if i == 2:
-        break
-    print(i)    # 输出 0 1
-
-for i in range(5):
-    if i == 2:
-        continue
-    print(i)    # 输出 0 1 3 4`,
-       bank:[
-        Q("break 的作用是？",["结束整个循环","跳过本次循环","报错","暂停 1 秒"],0,"break 立即终止循环。","for i in range(5):\n    if i == 2:\n        break"),
-        Q("continue 的作用是？",["跳过本次循环剩余部分","结束整个循环","跳出函数","退出程序"],0,"continue 跳过本轮，进入下一轮。","for i in range(5):\n    if i == 2:\n        continue"),
-        Q("for i in range(5) 中 i==2 时 break，会打印几个数？",["2 个（0,1）","5 个","3 个","4 个"],0,"break 在 i=2 时终止，只打印 0 和 1。","for i in range(5):\n    if i == 2:\n        break\n    print(i)  # 0 1"),
-        Q("for i in range(5) 中 i==2 时 continue，会打印几个数？",["4 个（0,1,3,4）","2 个","5 个","3 个"],0,"continue 跳过 2，打印 0,1,3,4 共 4 个。","for i in range(5):\n    if i == 2:\n        continue\n    print(i)  # 0 1 3 4"),
-        Q("想找第一个满足条件的数就停，用？",["break","continue","pass","return"],0,"找到目标就 break 跳出循环。","for x in lst:\n    if x > 10:\n        print(x)\n        break")]
-      },
-     ],
+          ],
    extra:[
       Q("for i in range(3): for j in range(2): print(\"*\", end=\"\")，共输出几颗星？",["6","3","2","9"],0,"3×2=6 颗。","for i in range(3):\n    for j in range(2):\n        print(\"*\", end=\"\")"),
       Q("for i in range(3): print(i); break，输出？",["0","0 1 2","0 1","报错"],0,"第一次循环就 break，只输出 0。","for i in range(3):\n    print(i)\n    break")]
@@ -1632,20 +1584,7 @@ print(a[::-1])   # [4, 3, 2, 1, 0] 反转`,
       Q("a = [5, 6, 7, 8]; a[1:] 是？",["[6, 7, 8]","[5, 6]","[6, 7]","[5]"],0,"终点省略表示取到末尾。","a = [5, 6, 7, 8]\nprint(a[1:])  # [6, 7, 8]"),
       Q("切片 [起点:终点] 包不包含终点下标？",["不包含","包含","看情况","报错"],0,"切片是“左闭右开”，含起点不含终点。","a = [0,1,2,3,4]\nprint(a[1:3])  # [1,2] 不含3")]
     },
-     {id:"7-1-3",gen:[{f:mkSlice(),n:35}],title:"列表切片",terms:[{t:"切片",d:"用 [start:end] 取列表的一段，含头不含尾。"},{t:"步长切片",d:"[start:end:step] 带步长取，step 为负可倒序。"}],
-       exp:"列表切片 lst[a:b] 取下标 a 到 b-1。省略 a 从头开始，省略 b 到末尾。lst[::-1] 反转列表。切片返回新列表，不修改原列表。",
-       code:`lst = [0, 1, 2, 3, 4, 5]
-print(lst[1:4])   # [1, 2, 3]
-print(lst[:3])    # [0, 1, 2]
-print(lst[::-1])  # [5, 4, 3, 2, 1, 0]`,
-       bank:[
-        Q("lst=[0,1,2,3,4]；lst[1:3] 是？",["[1,2]","[1,2,3]","[0,1]","[2,3]"],0,"切片含头不含尾，取下标 1、2。","lst = [0,1,2,3,4]\nprint(lst[1:3])  # [1,2]"),
-        Q("lst=[0,1,2,3,4]；lst[:3] 是？",["[0,1,2]","[1,2,3]","[0,1,2,3]","[2,3,4]"],0,"省略开头默认从头开始。","print(lst[:3])  # [0,1,2]"),
-        Q("lst[::-1] 的效果是？",["反转列表","复制列表","报错","排序"],0,"步长 -1 从后往前取，得到反转。","print(lst[::-1])"),
-        Q("切片会修改原列表吗？",["不会，返回新列表","会直接改","报错","清空原列表"],0,"切片返回新列表，原列表不变。","b = lst[1:3]  # lst 不变"),
-        Q("lst=[0,1,2,3,4]；lst[2:] 是？",["[2,3,4]","[0,1]","[2]","[0,1,2]"],0,"省略结尾到末尾。","print(lst[2:])  # [2,3,4]")]
-      },
-     ],
+          ],
    extra:[
       Q("a = [1, 2, 3, 4, 5]; a[0:5:2] 是？",["[1, 3, 5]","[1, 2, 3]","[2, 4]","[1, 3]"],0,"步长 2 隔一个取一个。","a = [1, 2, 3, 4, 5]\nprint(a[0:5:2])  # [1, 3, 5]"),
       Q("要复制整个列表，可以写？",["b = a[:]","b = a","b = a[0]","b = a[-1]"],0,"b = a[:] 复制一份，改 b 不影响 a。","a = [1, 2]\nb = a[:]")]
@@ -1678,20 +1617,7 @@ print(sorted(nums))  # 返回新列表，nums 不变`,
       Q("max([4, 9, 2]) 的结果是？",["9","4","2","报错"],0,"max 返回最大值。","print(max([4, 9, 2]))  # 9"),
       Q("sum([1, 2, 3, 4]) 的结果是？",["10","24","4","报错"],0,"sum 求和：1+2+3+4=10。","print(sum([1, 2, 3, 4]))  # 10")]
     },
-     {id:"7-2-3",gen:[{f:function(){return mkSort()},n:35}],title:"列表排序与逆序",terms:[{t:"sort",d:"原地排序，直接修改列表，无返回值。"},{t:"sorted",d:"返回新排序列表，不修改原列表。"},{t:"reverse",d:"原地反转列表顺序。"}],
-       exp:"lst.sort() 原地升序排序（改原列表）；sorted(lst) 返回新列表（原列表不变）；lst.reverse() 原地反转。加 reverse=True 降序。",
-       code:`lst = [3, 1, 2]
-lst.sort()
-print(lst)       # [1, 2, 3]
-print(sorted([3,1,2], reverse=True))  # [3,2,1]`,
-       bank:[
-        Q("lst.sort() 的效果是？",["原地升序排序","返回新排序列表","反转列表","清空列表"],0,"sort() 原地修改列表为升序。","lst = [3,1,2]\nlst.sort()\nprint(lst)  # [1,2,3]"),
-        Q("lst.sort() 和 sorted(lst) 的区别？",["sort 改原列表，sorted 返回新列表","完全一样","都改原列表","都返回新列表"],0,"sort 原地改，sorted 返回新列表。","b = sorted(lst)  # lst 不变"),
-        Q("想降序排序用？",["sort(reverse=True)","sort(desc=True)","sorted(up=True)","reverse(False)"],0,"sort 或 sorted 加 reverse=True 降序。","lst.sort(reverse=True)"),
-        Q("lst.reverse() 的作用是？",["反转列表顺序","升序排序","去重","复制"],0,"reverse() 原地反转元素顺序。","lst = [1,2,3]\nlst.reverse()\nprint(lst)  # [3,2,1]"),
-        Q("lst=[3,1,2]；lst.sort() 后 lst 是？",["[1,2,3]","[3,1,2]","[3,2,1]","None"],0,"sort 原地改为升序 [1,2,3]。","lst = [3,1,2]\nlst.sort()\nprint(lst)  # [1,2,3]")]
-      },
-     ],
+          ],
    extra:[
       Q("nums = [5, 2, 8]; print(sorted(nums)[0]) 输出？",["2","5","8","报错"],0,"排序后 [2,5,8]，取第一个 2。","nums = [5, 2, 8]\nprint(sorted(nums)[0])  # 2"),
       Q("nums = [1, 2, 3]; nums.append(4); nums.pop() 后 nums 是？",["[1, 2, 3]","[1, 2, 3, 4]","[1, 2]","报错"],0,"加 4 又弹出 4，恢复原样。","nums = [1, 2, 3]\nnums.append(4)\nnums.pop()\nprint(nums)  # [1, 2, 3]")]
@@ -1983,39 +1909,7 @@ print(x * 2)    # 14`,
       Q("def sq(x): return x * x; print(sq(5)) 输出？",["25","5","x*x","报错"],0,"返回 5*5=25。","def sq(x):\n    return x * x\nprint(sq(5))  # 25"),
       Q("return 后面不写任何东西返回？",["None","0","报错","False"],0,"return 单独出现返回 None。","def f():\n    return\nprint(f())  # None")]
     },
-    {id:"9-2-2",gen:[{f:function(){return mkFuncMulti()},n:35}],title:"默认参数与多返回值",terms:[{t:"默认参数",d:"def f(a, b=10) 中 b 有默认值，调用不传就用默认。"},{t:"多返回值",d:"return 1, 2 返回元组，接收时解包。"}],
-     exp:"默认参数：def greet(name, msg=\"你好\")，调用 greet(\"小明\") 时 msg 用默认值。多返回值：return a, b 打包成元组，x, y = f() 解包接收。",
-     code:`def greet(name, msg="你好"):
-    print(msg, name)
-
-greet("小明")          # 你好 小明
-greet("小红", "早上好")  # 早上好 小红
-
-def f():
-    return 1, 2
-a, b = f()   # a=1, b=2`,
-     bank:[
-      Q("def f(a, b=10): return a + b; print(f(5)) 输出？",["15","5","报错","10"],0,"b 没传，用默认值 10，5+10=15。","def f(a, b=10):\n    return a + b\nprint(f(5))  # 15"),
-      Q("默认参数怎么写？",["def f(a, b=10)","def f(a=10, b)","def f(a b=10)","def f(a, b == 10)"],0,"默认值用 = 写在参数后。","def greet(name, msg=\"你好\"):"),
-      Q("def f(): return 1, 2; 返回的是什么类型？",["元组","列表","整数","报错"],0,"多返回值打包成元组。","def f():\n    return 1, 2\nprint(type(f()))  # tuple"),
-      Q("x, y = f() 这种写法叫？",["解包","循环","拼接","赋值给一个"],0,"把元组解开分给多个变量。","x, y = f()"),
-      Q("def f(a, b): return a, b; print(f(7, 8)) 输出？",["(7, 8)","7 8","报错","78"],0,"返回元组 (7, 8)。","def f(a, b):\n    return a, b\nprint(f(7, 8))  # (7, 8)")]
-    },
-     {id:"9-2-3",gen:[{f:function(){return mkFuncRet2()},n:35}],title:"return 的多种返回",terms:[{t:"return",d:"函数产出结果的关键字，遇到 return 立即结束函数。"},{t:"多返回值",d:"return a, b 返回元组，可解包接收。"}],
-       exp:"return 把结果交回调用处。return 后代码不再执行。可以 return a, b 一次返回多个值（本质是元组），调用处用 x, y = f() 接收。函数没有 return 默认返回 None。",
-       code:`def calc(a, b):
-    return a + b, a * b   # 返回元组
-
-s, p = calc(3, 4)
-print(s, p)   # 7 12`,
-       bank:[
-        Q("return 后还有代码会执行吗？",["不会，函数立即结束","会继续执行","报错","看情况"],0,"遇到 return 函数立即结束。","def f():\n    return 1\n    print(\"不执行\")"),
-        Q("def f(): return 1, 2 的返回类型？",["元组 (1, 2)","列表 [1, 2]","两个返回值","字典"],0,"多返回值是元组。","def f():\n    return 1, 2\na, b = f()"),
-        Q("a, b = f() 中 f 返回 (3, 4)，a 是？",["3","4","(3, 4)","报错"],0,"解包把 3 给 a。","a, b = f()\nprint(a)  # 3"),
-        Q("函数没有 return 默认返回？",["None","0","False","空字符串"],0,"无 return 返回 None。","def f():\n    pass\nprint(f())  # None"),
-        Q("return 的主要作用是？",["把计算结果交回调用处","打印结果","结束程序","定义变量"],0,"return 返回值给调用者。","def add(a, b):\n    return a + b\nr = add(1, 2)")]
-      },
-     ],
+              ],
    extra:[
       Q("def f(x=2): return x * 10; print(f()) 输出？",["20","2","报错","0"],0,"x 用默认值 2，2*10=20。","def f(x=2):\n    return x * 10\nprint(f())  # 20"),
       Q("def f(): return 3; print(type(f())) 输出？",["int","str","None","报错"],0,"返回整数，类型 int。","def f():\n    return 3\nprint(type(f()))  # int")]
@@ -2107,19 +2001,7 @@ print("hello".replace("l", "L"))  # heLLo`,
       Q("把 \"1 2 3\" 按空格拆开，结果是？",["[\"1\", \"2\", \"3\"]","\"123\"","[\"1 2 3\"]","报错"],0,"split(\" \") 按空格拆分。","print(\"1 2 3\".split(\" \"))  # ['1', '2', '3']"),
       Q("split 和 join 的关系是？",["互为反操作","完全一样","join 只能拼数字","没关系"],0,"split 拆、join 拼，一拆一拼。","s = \"a,b\"\nprint(\",\".join(s.split(\",\")))  # a,b")]
     },
-     {id:"10-1-3",gen:[{f:function(){return mkStrCase()},n:35}],title:"字符串大小写处理",terms:[{t:"upper/lower",d:"全部转大写/小写。"},{t:"strip",d:"去掉字符串首尾的空格或指定字符。"}],
-       exp:"字符串处理：s.upper() 全大写、s.lower() 全小写、s.strip() 去首尾空白、s.replace(a, b) 替换、s.count(x) 数出现次数。这些方法都返回新字符串，原字符串不变。",
-       code:`s = "  Hello World  "
-print(s.strip().lower())  # hello world
-print(s.replace("World", "Python"))  # Hello Python`,
-       bank:[
-        Q("\"abc\".upper() 的结果是？",["\"ABC\"","\"abc\"","\"Abc\"","报错"],0,"upper() 全部转大写。","print(\"abc\".upper())  # ABC"),
-        Q("\"  hi  \".strip() 的结果是？",["\"hi\"","\"  hi  \"","\"hi  \"","\"  hi\""],0,"strip() 去掉首尾空白。","print(\"  hi  \".strip())  # hi"),
-        Q("\"a-b-c\".replace(\"-\", \"\") 的结果？",["\"abc\"","\"a-b-c\"","\"abc-\"","\"-abc\""],0,"replace 把 - 替换成空。","print(\"a-b-c\".replace(\"-\", \"\"))  # abc"),
-        Q("\"banana\".count(\"a\") 的结果是？",["3","2","1","4"],0,"字母 a 出现 3 次。","print(\"banana\".count(\"a\"))  # 3"),
-        Q("\"Hello\".lower() 的结果是？",["\"hello\"","\"HELLO\"","\"Hello\"","\"hELLO\""],0,"lower() 全部转小写。","print(\"Hello\".lower())  # hello")]
-      },
-     ],
+          ],
    extra:[
       Q("s = \"a b c\"; s.replace(\" \", \"-\") 的结果是？",["a-b-c","a b c","abc","报错"],0,"空格全换成 -。","s = \"a b c\"\nprint(s.replace(\" \", \"-\"))  # a-b-c"),
       Q("\"\".join([\"a\", \"b\", \"c\"]) 的结果是？",["abc","a b c","a,b,c","报错"],0,"空字符串拼接，直接连起来。","print(\"\".join([\"a\", \"b\", \"c\"]))  # abc")]
@@ -2159,20 +2041,7 @@ print("a" in s)             # True`,
       Q("\"abc\".isalpha() 的结果是？",["True","False","报错","abc"],0,"全是字母，isalpha 为 True。","print(\"abc\".isalpha())  # True"),
       Q("判断字符串 s 里包含字符 x 应写？",["\"x\" in s","s in \"x\"","s.x()","x in s()"],0,"in 运算符判断包含。","s = \"hi\"\nprint(\"i\" in s)  # True")]
     },
-     {id:"10-2-3",gen:[{f:function(){return mkStrFind()},n:35}],title:"字符串查找与判断",terms:[{t:"in 运算符",d:"判断某子串是否在字符串里，返回 True/False。"},{t:"find",d:"返回子串第一次出现的位置下标，找不到返回 -1。"}],
-       exp:"判断和查找：\"abc\" in s 判断是否包含；s.find(x) 返回位置或 -1；s.startswith(x)/endswith(x) 判断开头结尾；s.isdigit() 判断是否全是数字。",
-       code:`s = "hello python"
-print("python" in s)   # True
-print(s.find("o"))     # 4
-print(s.startswith("he"))  # True`,
-       bank:[
-        Q("\"py\" in \"python\" 的结果是？",["True","False","报错","1"],0,"py 是 python 的子串，结果为 True。","print(\"py\" in \"python\")  # True"),
-        Q("\"hello\".find(\"l\") 的结果是？",["2","1","3","-1"],0,"l 第一次出现在下标 2。","print(\"hello\".find(\"l\"))  # 2"),
-        Q("\"hello\".find(\"z\") 的结果是？",["-1","0","报错","None"],0,"找不到返回 -1。","print(\"hello\".find(\"z\"))  # -1"),
-        Q("\"hello\".startswith(\"he\") 的结果？",["True","False","报错","None"],0,"以 he 开头，为 True。","print(\"hello\".startswith(\"he\"))  # True"),
-        Q("\"123\".isdigit() 的结果是？",["True","False","报错","123"],0,"全是数字字符，返回 True。","print(\"123\".isdigit())  # True")]
-      },
-     ],
+          ],
    extra:[
       Q("s = \"data.csv\"; s.endswith(\".csv\") 的结果是？",["True","False","报错","csv"],0,"以 .csv 结尾。","s = \"data.csv\"\nprint(s.endswith(\".csv\"))  # True"),
       Q("\" 12 \".strip().isdigit() 的结果是？",["True","False","报错","12"],0,"strip 后是 \"12\"，全数字。","print(\" 12 \".strip().isdigit())  # True")]
@@ -2494,24 +2363,7 @@ with open(path, "r", encoding="utf-8") as f:
       Q("读文件前确认文件在不在，可以用？",["os.path.exists(path)","f.exists()","open 前打印","read 后检查"],0,"exists 判断文件是否存在。","import os\nif os.path.exists(\"a.txt\"):\n    print(\"存在\")"),
       Q("open 一个不存在的文件（r 模式）会？",["抛 FileNotFoundError","自动创建","返回空","报错"],0,"r 模式文件不存在就报错。","# FileNotFoundError")]
     },
-     {id:"12-3-3",gen:[{f:function(){return mkTry2()},n:35}],title:"异常捕获 else 与 finally",terms:[{t:"else 块",d:"try 没出错时执行的部分。"},{t:"finally 块",d:"无论是否出错都会执行，常用于释放资源。"}],
-       exp:"try/except/else/finally 完整结构：try 尝试；except 捕获错误；else 没错误时执行；finally 无论如何都执行。注意 else 要在所有 except 之后。",
-       code:`try:
-    n = int(input())
-except ValueError:
-    print("输入错误")
-else:
-    print("转换成功", n)
-finally:
-    print("结束")`,
-       bank:[
-        Q("try 没出错时，else 块会？",["执行","不执行","报错","随机"],0,"else 只在没有异常时执行。","try:\n    pass\nexcept:\n    pass\nelse:\n    print(\"无异常\")"),
-        Q("finally 块什么时候执行？",["无论如何都执行","只有出错时","只有成功时","从不执行"],0,"finally 无条件执行。","try:\n    pass\nfinally:\n    print(\"总会执行\")"),
-        Q("else 块应该放在哪里？",["所有 except 之后","except 之前","try 之前","finally 之后"],0,"else 在所有 except 后面。","try:\n    x\nexcept:\n    pass\nelse:\n    pass"),
-        Q("try/except/else/finally 的顺序是？",["try→except→else→finally","else→try→finally→except","except→try→else→finally","任意顺序"],0,"固定顺序：try、except、else、finally。","try:\n    pass\nexcept:\n    pass\nelse:\n    pass\nfinally:\n    pass"),
-        Q("finally 常用于？",["关闭文件、释放资源","定义变量","打印结果","循环"],0,"finally 保证清理动作一定执行。","try:\n    f = open(\"a.txt\")\nfinally:\n    f.close()")]
-      },
-     ],
+          ],
    extra:[
       Q("统计文本行数，正确写法是？",["with open(...) as f: print(len(f.readlines()))","f.lines()","count(f)","len(f)"],0,"readlines 得到行列表再数。","with open(\"a.txt\", \"r\", encoding=\"utf-8\") as f:\n    print(len(f.readlines()))"),
       Q("with open 里想要逐行处理，应写？",["for line in f:","f.read() 一次读完","f.write()","while f"],0,"文件对象可直接遍历行。","with open(\"a.txt\", \"r\", encoding=\"utf-8\") as f:\n    for line in f:\n        print(line)")]
@@ -2546,24 +2398,7 @@ print(m.sqrt(16))      # 4.0 用别名 m`,
       Q("一次导入多个名字的写法？",["from math import sqrt, pi","from math import sqrt + pi","import sqrt, pi from math","import math, from"],0,"逗号分隔多个名字。","from math import sqrt, pi"),
       Q("import numpy as np 是？",["导入 numpy 并用别名 np","报错","导入两个模块","定义函数"],0,"np 是 numpy 的通行别名。","import numpy as np")]
     },
-     {id:"13-1-3",gen:[{f:function(){return mkImport2()},n:35}],title:"import 的多种写法",terms:[{t:"from...import",d:"只导入指定名字，直接用不用前缀。"},{t:"as 别名",d:"给模块起短名，如 import numpy as np。"}],
-       exp:"导入方式：import math 后用 math.sqrt(9)；from math import sqrt 直接用 sqrt(9)；import math as m 用 m.sqrt(9)。from 导入避免名字冲突时用别名。",
-       code:`import math
-print(math.sqrt(16))      # 4.0
-
-from math import sqrt
-print(sqrt(9))            # 3.0
-
-import math as m
-print(m.pi)               # 3.14...`,
-       bank:[
-        Q("import math 后用 sqrt 要怎么写？",["math.sqrt(9)","sqrt(9)","sqrt.math(9)","import sqrt(9)"],0,"import math 需用模块名.函数。","import math\nprint(math.sqrt(9))"),
-        Q("from math import sqrt 后怎么写？",["sqrt(9)","math.sqrt(9)","math.sqrt","sqrt.math"],0,"from 导入直接调用函数名。","from math import sqrt\nprint(sqrt(9))"),
-        Q("import math as m 中 m 是？",["别名","变量","函数","参数"],0,"as 给模块起别名。","import math as m\nprint(m.pi)"),
-        Q("from math import * 的作用？",["导入全部名字","导入一个函数","报错","导入模块本身"],0,"* 导入所有公开名字，慎用易冲突。","from math import *"),
-        Q("为什么用别名？",["避免名字太长或冲突","运行更快","必须使用","没有原因"],0,"别名让代码简洁，避免命名冲突。","import numpy as np")]
-      },
-     ],
+          ],
    extra:[
       Q("math.floor(3.9) 的结果是？",["3","4","3.9","报错"],0,"floor 向下取整。","import math\nprint(math.floor(3.9))  # 3"),
       Q("math.ceil(3.1) 的结果是？",["4","3","3.1","报错"],0,"ceil 向上取整。","import math\nprint(math.ceil(3.1))  # 4")]
@@ -2658,20 +2493,7 @@ print(resp.status_code)`,
       Q("resp.status_code 为 200 表示？",["请求成功","请求失败","网页不存在","报错"],0,"200 是成功状态码。","if resp.status_code == 200:\n    print(\"成功\")"),
       Q("很多网站反爬，常见应对是？",["设置 User-Agent 伪装浏览器","删掉请求","换个网站","无法解决"],0,"带浏览器 UA 是最基本操作。","headers = {\"User-Agent\": \"Mozilla/5.0\"}")]
     },
-     {id:"13-3-3",gen:[{f:function(){return mkPip()},n:35}],title:"pip 安装第三方库",terms:[{t:"pip",d:"Python 官方包管理器，pip install 包名 安装库。"},{t:"第三方库",d:"社区开发的库，如 requests、numpy，需先安装才能 import。"}],
-       exp:"第三方库用 pip 安装：pip install requests。装好后 import requests 直接使用。国内网络慢可加镜像：pip install 包名 -i 镜像地址。查看已装：pip list。",
-       code:`# 命令行执行
-# pip install requests
-# 然后代码里就能
-# import requests`,
-       bank:[
-        Q("安装第三方库的命令是？",["pip install 包名","import 包名","python 包名","pip 包名"],0,"pip install 是安装命令。","pip install requests"),
-        Q("requests 库主要用于？",["发 HTTP 请求爬网页","画图表","算矩阵","做游戏"],0,"requests 是网络请求库。","import requests\nr = requests.get(url)"),
-        Q("pip list 的作用？",["查看已安装的包","安装包","删除包","更新 Python"],0,"pip list 列出所有已安装包。","pip list"),
-        Q("国内 pip 下载慢可以？",["用国内镜像源","多等一会就行","卸载 Python","换电脑"],0,"加 -i 参数指定镜像加速。","pip install requests -i 镜像"),
-        Q("装完库后代码里怎么用？",["import 导入","pip import","直接调用","重启电脑"],0,"import 库名即可使用。","import requests")]
-      },
-     ],
+          ],
    extra:[
       Q("pip install numpy 是安装？",["numpy 数学库","numpy 游戏","浏览器插件","报错"],0,"numpy 是科学计算库。","pip install numpy"),
       Q("resp = requests.get(url); len(resp.text) 表示？",["网页文本长度","状态码","报错","网页数量"],0,"len 量文本长度。","print(len(resp.text))")]
@@ -3027,22 +2849,7 @@ print(fact(5))   # 120`,
       Q("递归没有基线条件会？",["无限递归报错 RecursionError","正常运行","变快","自动停止"],0,"栈溢出报错。","def f():\n    return f()  # RecursionError"),
       Q("fact(3) 的结果是？",["6","3","9","报错"],0,"3×2×1=6。","print(fact(3))  # 6")]
     },
-    {id:"15-3-2",gen:[{f:function(){return mkRecursion2()},n:35}],title:"递归应用",terms:[{t:"斐波那契",d:"每项是前两项之和：1, 1, 2, 3, 5, 8..."},{t:"递归 vs 循环",d:"递归代码简洁但可能慢，循环更省资源。"}],
-     exp:"斐波那契：f(n) = f(n-1) + f(n-2)，基线 f(1)=f(2)=1。递归写法直观，但重复计算多，大数据量用循环或缓存更好。",
-     code:`def fib(n):
-    if n <= 2:
-        return 1
-    return fib(n - 1) + fib(n - 2)
-
-print(fib(6))   # 8`,
-     bank:[
-      Q("斐波那契数列第 6 项是？",["8","6","13","报错"],0,"1,1,2,3,5,8 → 第6项 8。","print(fib(6))  # 8"),
-      Q("fib(n) 的递归公式是？",["fib(n-1) + fib(n-2)","fib(n) * 2","fib(n+1) - 1","报错"],0,"前两项之和。","return fib(n - 1) + fib(n - 2)"),
-      Q("fib 的基线条件是？",["n <= 2 返回 1","n == 0","n > 100","报错"],0,"前两项都是 1。","if n <= 2:\n    return 1"),
-      Q("递归的缺点是？",["重复计算多、可能慢","代码太长","不能用参数","只能算一次"],0,"fib 递归有大量重复调用。","# 用缓存或循环优化"),
-      Q("递归改成循环一般？",["更快更省内存","更慢","报错","不能改"],0,"循环避免调用栈和重复计算。","def fib(n):\n    a, b = 1, 1\n    for _ in range(n - 2):\n        a, b = b, a + b\n    return b")]
-    },
-     {id:"15-3-3",gen:[{f:function(){return mkComplexity()},n:35}],title:"时间复杂度入门",terms:[{t:"时间复杂度",d:"衡量算法随数据规模增长所需操作次数的增长趋势。"},{t:"O(n)",d:"操作次数与数据规模成正比，如单层循环。"}],
+         {id:"15-3-3",gen:[{f:function(){return mkComplexity()},n:35}],title:"时间复杂度入门",terms:[{t:"时间复杂度",d:"衡量算法随数据规模增长所需操作次数的增长趋势。"},{t:"O(n)",d:"操作次数与数据规模成正比，如单层循环。"}],
        exp:"常见复杂度从快到慢：O(1) < O(log n) < O(n) < O(n log n) < O(n²)。单层循环 O(n)，双层循环 O(n²)，二分 O(log n)。数据量大时复杂度决定程序快慢。",
        code:`# 单层循环：O(n)
 for i in range(n):
@@ -3106,20 +2913,7 @@ show()`,
       Q("删除一个学生用？",["del students[\"小明\"]","students.remove(\"小明\")","students.pop(\"小明\") 也行","报错"],0,"del 或 pop 按键删。","del students[\"小明\"]"),
       Q("查某个学生的成绩用？",["students.get(\"小明\")","students.find(\"小明\")","students[\"小明\"] 也可以","报错"],0,"get 找不到不报错。","print(students.get(\"小明\"))")]
     },
-     {id:"16-1-3",gen:[{f:function(){return mkSetMember()},n:35}],title:"集合的成员判断",terms:[{t:"成员判断",d:"用 in 判断元素是否属于集合，速度非常快。"},{t:"子集",d:"A 的所有元素都在 B 里，A 就是 B 的子集。"},{t:"isdisjoint",d:"判断两个集合是否有交集，没有交集返回 True。"}],
-       exp:"集合的成员判断：x in s 判断元素在不在集合里；A.issubset(B) 判断 A 是不是 B 的子集；A.isdisjoint(B) 判断两集合有没有交集。成员判断速度极快，常用于去重、筛选和数据对比。",
-       code:`s = {1, 2, 3}
-print(3 in s)           # True
-print({1, 2}.issubset(s))  # True
-print({1, 2}.isdisjoint({9}))  # True`,
-       bank:[
-        Q("git init 的作用？",["初始化 Git 仓库","删除仓库","提交代码","拉取代码"],0,"在项目目录初始化版本管理。","git init"),
-        Q("git add 的作用？",["把修改暂存起来","删除文件","提交历史","查看状态"],0,"add 把改动加入暂存区。","git add main.py"),
-        Q("git commit -m \"说明\" 做什么？",["保存暂存的修改","下载代码","创建分支","清空仓库"],0,"commit 生成带说明的版本快照。","git commit -m \"修复bug\""),
-        Q("git log 的作用？",["查看提交历史","提交代码","删除提交","合并分支"],0,"log 列出所有 commit 记录。","git log"),
-        Q("代码写坏了想回退，用？",["git 回滚到旧版本","删除文件重写","重启电脑","复制粘贴"],0,"Git 记录每次快照可回退。","git checkout 旧版本")]
-      },
-     ],
+          ],
    extra:[
       Q("写项目前第一步应该？",["拆解功能，想清楚流程","直接写代码","先装软件","写注释"],0,"先设计再编码。","# 需求 → 拆解 → 编码"),
       Q("小程序菜单通常用什么实现？",["while 循环 + input 选项 + if 分支","一个 if 搞定","递归","报错"],0,"循环菜单是标配。","while True:\n    cmd = input(\"选择: \")")]
@@ -3132,18 +2926,7 @@ print({1, 2}.isdisjoint({9}))  # True`,
 },
 {id:24,title:"自动化与黑客进阶",tag:"综合运用",desc:"自动化提效与黑客级进阶之路",sections:[
   {id:"16-2",title:"自动化与提效",kps:[
-    {id:"16-2-1",gen:[{f:function(){return mkCondComp()},n:35}],title:"条件推导式",terms:[{t:"条件推导式",d:"列表推导式中加 if 过滤元素。"},{t:"过滤",d:"按条件筛掉不要的元素。"},{t:"三元表达式",d:"x if 条件 else y，条件成立取 x 否则取 y。"}],
-     exp:"条件推导式在生成列表时用 if 过滤：[x for x in range(6) if x % 2 == 0] 只保留偶数。条件写在 for 后面是过滤；写在表达式里是转换（如 [x if x > 3 else 0 for x in range(5)]）。",
-     code:`print([x for x in range(6) if x % 2 == 0])  # [0, 2, 4]
-print([x if x > 3 else 0 for x in range(5)])  # [0, 0, 0, 0, 4]`,
-     bank:[
-      Q("os.listdir(\"photos\") 返回？",["文件夹里的文件名列表","文件内容","报错","文件大小"],0,"listdir 列出文件名。","import os\nprint(os.listdir(\"photos\"))"),
-      Q("批量改名需要哪两个操作？",["listdir 遍历 + rename 改名","open + read","write + close","报错"],0,"遍历再逐个改。","for name in os.listdir(folder):\n    os.rename(...)"),
-      Q("只处理 .jpg 文件，判断用？",["name.endswith(\".jpg\")","name.startswith(\"jpg\")","name == jpg","报错"],0,"endswith 判断后缀。","if name.endswith(\".jpg\")"),
-      Q("批量处理的核心思路是？",["循环遍历 + 条件筛选 + 逐个处理","一次处理全部","手动操作","报错"],0,"循环批量。","for name in os.listdir(folder):"),
-      Q("os.rename(旧, 新) 的作用是？",["文件改名","删除文件","创建目录","报错"],0,"rename 改文件名。","os.rename(old, new)")]
-    },
-    {id:"16-2-2",gen:[{f:function(){return mkDataOpt()},n:35}],title:"数据处理与优化",terms:[{t:"推导式优化",d:"用列表推导式代替 for 循环，代码更短。"},{t:"性能意识",d:"数据大时注意复杂度，优先 O(n) 而不是 O(n²)。"}],
+        {id:"16-2-2",gen:[{f:function(){return mkDataOpt()},n:35}],title:"数据处理与优化",terms:[{t:"推导式优化",d:"用列表推导式代替 for 循环，代码更短。"},{t:"性能意识",d:"数据大时注意复杂度，优先 O(n) 而不是 O(n²)。"}],
      exp:"数据处理三板斧：推导式（简洁转换）、内置函数（sorted/max/sum 快且稳）、字典/集合（查找 O(1)）。数据量大时避免嵌套循环。",
      code:`nums = [i for i in range(100)]
 squares = [x ** 2 for x in nums if x % 2 == 0]
@@ -5083,6 +4866,7 @@ function openKp(chId,secId,kpId){
   $("kp-prac-task").innerHTML="<b>任务：</b>用「"+esc(kp.title)+"」的知识写一小段能运行的代码——比如输出一句你自己的话、算一道小算术、处理一行文字。不会写就先把上面的示例抄下来改几个字，重点是动手敲一遍。";
   $("kp-prac-input").value="";
   $("kp-prac-out").style.display="none";$("kp-prac-out").innerHTML="";
+  kpInputReady=false;kpStdinBuffer="";
   let gloss="";
   (kp.terms||[]).forEach(t=>{gloss+="<div class='g-item'><b>"+esc2(t.t)+"</b>"+esc2(t.d)+"</div>"});
   $("kp-gloss").innerHTML=gloss?"<div class='lab' style='font-size:12px;color:var(--ink3);font-weight:800;letter-spacing:.08em'>新名词解释</div>"+gloss:"";
@@ -5102,16 +4886,34 @@ async function runKpDemo(){
   if(res.err){out.innerHTML="<div class='fb-t bad'>运行报错</div><div class='code'>"+esc2(String(res.err).slice(0,300))+"</div>";return;}
   out.innerHTML="<div class='fb-t good'>✓ 运行成功 · 输出</div><div class='code'>"+esc2(res.out||"（空）")+"</div>";
 }
+let kpStdinBuffer="",kpInputReady=false;
+function needStdin(code){
+  if(curLang==="py")return /\binput\s*\(/.test(code);
+  if(curLang==="java")return /Scanner|BufferedReader|\.nextInt|\.nextLine|\.nextDouble|\.next\s*\(|readLine|System\.in/.test(code);
+  return /\bcin\s*>>|\bscanf\s*\(|getline\s*\(\s*cin/.test(code);
+}
 async function runKpPractice(){
   const code=$("kp-prac-input").value;
   if(!code.trim()){toast("先写点代码再运行");return}
   if(dangerous(code)){toast("不要写死循环哦，换个正常写法");return}
   const out=$("kp-prac-out");out.style.display="block";
+  // 代码要从键盘读输入：运行后在结果区先让用户填好输入，再真正运行
+  if(needStdin(code) && !kpInputReady){
+    out.innerHTML="<div class='fb-t'>你的代码要从键盘读输入 👇 请在下面按「每读一次填一行」填好，每行一组，再点按钮运行：</div>"+
+      "<div class='runin-box'><textarea id='kp-runin' rows='3' spellcheck='false' placeholder='例如：16（多行就每行写一组）'></textarea>"+
+      "<button class='btn violet small' onclick='runKpPracticeGo()'>带输入运行</button></div>";
+    return;
+  }
   out.innerHTML="<div class='fb-t'>运行中…</div>";
-  const res=await runCode(code,$("kp-stdin")?$("kp-stdin").value:"");
+  const res=await runCode(code,kpStdinBuffer);
+  kpInputReady=false;kpStdinBuffer="";
   if(res.noSk){out.innerHTML="<div class='fb-t bad'>运行器没加载（需要联网加载一次）</div>";return;}
   if(res.err){out.innerHTML="<div class='fb-t bad'>运行报错，修一修再试</div><div class='code'>"+esc2(String(res.err).slice(0,300))+"</div>";return;}
   out.innerHTML="<div class='fb-t good'>✓ 运行成功 · 你的输出</div><div class='code'>"+esc2(res.out||"（空）")+"</div>";
+}
+function runKpPracticeGo(){
+  const el=$("kp-runin");if(el)kpStdinBuffer=el.value;
+  kpInputReady=true;runKpPractice();
 }
 function finishPractice(){
   toast("练得不错！动手敲过才是真会，继续学下一个吧");
@@ -5390,7 +5192,7 @@ async function submitCode(){
   $("quiz-next").disabled=false;
   const fb=$("quiz-fb");fb.style.display="block";
   fb.innerHTML="<div class='fb-t'>运行中…</div>";
-  const res=await runCode(code,$("q-stdin")?$("q-stdin").value:"");
+  const res=await runCode(code,q._in||"");
   if(res.noSk){
     fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（需要联网加载一次）</div><div>请对照期望输出自查：</div><div class='lab'>期望输出</div><div class='code'>"+esc(q.out)+"</div><div class='lab'>参考代码</div><div class='code'>"+esc(q.solution)+"</div><div class='lab'>文字解析</div><div>"+esc(q.explain)+"</div>";
     $("quiz-next").textContent="我没写对，下一题";
@@ -5986,7 +5788,7 @@ async function examRunCode(){
   if(dangerous(code)){toast("不要写死循环哦");return}
   const fb=$("exam-fb");
   fb.innerHTML="<div class='fb-t'>"+(curLang==="py"?"运行中…":"云端编译运行中…（约 2~6 秒）")+"</div>";
-  const res=await runCode(code,$("exam-stdin")?$("exam-stdin").value:"");
+  const res=await runCode(code,q._in||"");
   if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div>";return;}
   if(res.net){fb.innerHTML="<div class='fb-t bad'>"+esc(res.err)+"</div>";return;}
   if(res.err){exam.codes[i]={code,err:String(res.err).slice(0,300)};renderExamFb(i);return;}
@@ -6166,7 +5968,7 @@ async function gradeRunCode(){
   if(dangerous(code)){toast("不要写死循环哦");return}
   const fb=$("grade-fb");
   fb.innerHTML="<div class='fb-t'>"+(curLang==="py"?"运行中…":"云端编译运行中…（约 2~6 秒）")+"</div>";
-  const res=await runCode(code,$("grade-stdin")?$("grade-stdin").value:"");
+  const res=await runCode(code,q._in||"");
   if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div>";return;}
   if(res.net){fb.innerHTML="<div class='fb-t bad'>"+esc(res.err)+"</div>";return;}
   if(res.err){grade.codes[i]={code,err:String(res.err).slice(0,300)};renderGradeFb(i);return;}
