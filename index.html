@@ -203,10 +203,12 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 .exam-opts .opt:hover{border-color:var(--cyan)}
 .exam-opts .opt.sel{border-color:var(--gold);background:rgba(255,215,94,.08)}
 .exam-code textarea{width:100%;background:#0a0f22;border:1px solid var(--line);border-radius:12px;color:#d8e2f5;font-family:Consolas,Menlo,monospace;font-size:14px;padding:12px;box-sizing:border-box}
-/* 运行后结果区内联输入框（input / cin / Scanner） */
-.runin-box{margin:8px 0 4px;border:1px dashed color-mix(in srgb,var(--acc1,#8f7bff) 55%,var(--line));border-radius:10px;padding:8px 10px;background:rgba(0,0,0,.18)}
-.runin-box textarea{width:100%;background:#070b18;border:1px solid var(--line);border-radius:8px;color:#bfe0ff;font-family:Consolas,Menlo,monospace;font-size:13px;padding:8px 10px;box-sizing:border-box;resize:vertical;outline:none;min-height:42px;margin-bottom:6px}
-.runin-box textarea:focus{border-color:var(--acc1,#8f7bff)}
+/* 运行后结果输出流里的终端输入行 */
+.term-out{font-size:12.5px;color:var(--ink3);margin:6px 0 4px;font-family:Consolas,Menlo,monospace}
+.term-in{display:flex;align-items:center;gap:8px;background:#05080f;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:2px 0}
+.term-prompt{color:var(--ok,#4ade80);font-family:Consolas,Menlo,monospace;font-weight:800}
+.term-input{flex:1;background:transparent;border:none;outline:none;color:#bfe0ff;font-family:Consolas,Menlo,monospace;font-size:14px}
+.term-input::placeholder{color:#5a6a8a}
 .exam-code .hint{font-size:12px;color:var(--ink3);margin:8px 0}
 .exam-fb{margin-top:12px;font-size:14px}
 .exam-fb .fb-t{font-weight:900;margin-bottom:6px}
@@ -4897,11 +4899,11 @@ async function runKpPractice(){
   if(!code.trim()){toast("先写点代码再运行");return}
   if(dangerous(code)){toast("不要写死循环哦，换个正常写法");return}
   const out=$("kp-prac-out");out.style.display="block";
-  // 代码要从键盘读输入：运行后在结果区先让用户填好输入，再真正运行
+  // 代码要从键盘读输入：运行后在结果输出流里直接出现一个终端输入行
   if(needStdin(code) && !kpInputReady){
-    out.innerHTML="<div class='fb-t'>你的代码要从键盘读输入 👇 请在下面按「每读一次填一行」填好，每行一组，再点按钮运行：</div>"+
-      "<div class='runin-box'><textarea id='kp-runin' rows='3' spellcheck='false' placeholder='例如：16（多行就每行写一组）'></textarea>"+
-      "<button class='btn violet small' onclick='runKpPracticeGo()'>带输入运行</button></div>";
+    out.innerHTML="<div class='term-out'>你的程序正在等待键盘输入，在下面这行直接输入（要读多次就每行写一个值）：</div>"+
+      "<div class='term-in'><span class='term-prompt'>❯</span><input id='kp-runin' class='term-input' type='text' spellcheck='false' placeholder='输入后按回车运行'></div>";
+    setTimeout(()=>{const el=$("kp-runin");if(!el)return;el.focus();el.onkeydown=e=>{if(e.key==="Enter")runKpPracticeGo();};},30);
     return;
   }
   out.innerHTML="<div class='fb-t'>运行中…</div>";
@@ -5167,8 +5169,8 @@ function runPy(code,stdin){
         throw new Error("File not found: '"+f+"'");
       },
       inputfun:promptText=>{
-        if(lines.length)return lines[li++];
-        return window.prompt(promptText||"请输入：","")||"";
+        if(li<lines.length)return lines[li++];
+        return "";
       },
       execLimit:10000000
     });
