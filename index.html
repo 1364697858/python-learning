@@ -3751,7 +3751,7 @@ function renderReader(){
   if(!chs||!chs.length){
     $("rd-title").innerHTML=b.title+`<span class="rd-ver-tag">${curVer==="full"?"普通版":"精简版"}</span>`;
     $("rd-toc").innerHTML=`<div class="toc-h">${curVer==="full"?"全文目录":"精简目录"}</div><div class="toc-empty">正文数据加载中…</div>`;
-    $("rd-main").innerHTML=`<div class="rd-chapter-title">正在载入正文…</div><div class="rd-para">数据文件较大，首次加载可能需要几秒到十几秒，请稍候；若长时间无内容，请点击左上角“书架”后重新进入。</div>`;
+    $("rd-main").innerHTML=`<div class="rd-chapter-title">正在载入正文…</div><div class="rd-para">本书为全卷全文，数据文件较大，首次加载在网速较慢时可能需要几十秒到几分钟，请耐心等待；加载完成后自动显示正文。若长时间无内容或提示加载失败，请点击左上角“书架”后重新进入。</div>`;
     return;
   }
   const ch=chs[Math.min(curChap,chs.length-1)];
