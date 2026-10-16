@@ -3722,16 +3722,26 @@ function renderBooks(){
 }
 function openBook(i){
   curBook=i;curVer="full";curChap=0;
-  ensureBookData(BOOKS[i],function(){renderReader();show("screen-reader")});
+  renderReader();show("screen-reader");
+  ensureBookData(BOOKS[i],renderReader);
 }
 function bookData(b){return (window.BOOKDATA&&BOOKDATA[b.id])||b}
+const DATA_VER=2;
 function ensureBookData(b,cb){
-  if(window.BOOKDATA&&BOOKDATA[b.id]){cb();return}
+  if(window.BOOKDATA&&BOOKDATA[b.id]){cb&&cb();return}
+  if(b._loading){b._loading.push(cb);return}
+  b._loading=[cb];
   const s=document.createElement("script");
-  s.src=b.data;
-  s.onload=cb;
-  s.onerror=function(){toast("正文数据加载失败，请确认 books 数据文件存在："+b.data)};
+  s.src=b.data+(b.data.indexOf("?")<0?"?v="+DATA_VER:"&v="+DATA_VER);
+  s.onload=function(){const q=b._loading;b._loading=null;(q||[]).forEach(f=>{try{f()}catch(e){}})};
+  s.onerror=function(){b._loading=null;renderLoadError(b)};
   document.head.appendChild(s);
+}
+function retryBookData(i){ensureBookData(BOOKS[i],renderReader)}
+function renderLoadError(b){
+  $("rd-title").innerHTML=b.title+`<span class="rd-ver-tag">加载失败</span>`;
+  $("rd-toc").innerHTML=`<div class="toc-h">目录</div><div class="toc-empty">数据未加载</div>`;
+  $("rd-main").innerHTML=`<div class="rd-chapter-title">正文数据加载失败</div><div class="rd-para">数据文件 ${b.data} 加载失败，请检查网络后点击下方按钮重试。</div><button class="btn" onclick="retryBookData(curBook)">重新加载</button>`;
 }
 function setReaderVer(v){curVer=v;renderReader()}
 function renderReader(){
@@ -3741,7 +3751,7 @@ function renderReader(){
   if(!chs||!chs.length){
     $("rd-title").innerHTML=b.title+`<span class="rd-ver-tag">${curVer==="full"?"普通版":"精简版"}</span>`;
     $("rd-toc").innerHTML=`<div class="toc-h">${curVer==="full"?"全文目录":"精简目录"}</div><div class="toc-empty">正文数据加载中…</div>`;
-    $("rd-main").innerHTML=`<div class="rd-chapter-title">正在载入正文…</div>`;
+    $("rd-main").innerHTML=`<div class="rd-chapter-title">正在载入正文…</div><div class="rd-para">数据文件较大，首次加载可能需要几秒到十几秒，请稍候；若长时间无内容，请点击左上角“书架”后重新进入。</div>`;
     return;
   }
   const ch=chs[Math.min(curChap,chs.length-1)];
@@ -3749,8 +3759,8 @@ function renderReader(){
   $("rd-ver-full").classList.toggle("cur",curVer==="full");
   $("rd-ver-brief").classList.toggle("cur",curVer==="brief");
   $("rd-toc").innerHTML=`<div class="toc-h">${curVer==="full"?"全文目录":"精简目录"}</div>`+chs.map((c,i)=>
-    `<button class="toc-i ${i===Math.min(curChap,chs.length-1)?"cur":""}" onclick="curChap=${i};renderReader()">${c.t}</button>`).join("");
-  $("rd-main").innerHTML=`<div class="rd-chapter-title">${ch.t}</div>`+
+    `<button class="toc-i ${i===Math.min(curChap,chs.length-1)?"cur":""}" onclick="curChap=${i};renderReader()">${c.t||c.title||""}</button>`).join("");
+  $("rd-main").innerHTML=`<div class="rd-chapter-title">${ch.t||ch.title||""}</div>`+
     ch.paras.map(p=>`<div class="rd-para ${isQuote(p)?"bk-quote":""}">${p}</div>`).join("");
   $("rd-main").scrollTop=0;
 }
