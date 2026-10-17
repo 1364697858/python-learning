@@ -3861,6 +3861,15 @@ function isQuote(p){
 function showModal(id){const el=$(id);el.classList.add("show");el.scrollTop=0;el.querySelectorAll(".modal,*").forEach(x=>{if(x.scrollTop)x.scrollTop=0});if(window.scrollTo)window.scrollTo(0,0)}
 function closeModal(id){$(id).classList.remove("show")}
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+/* 选择题选项打乱（练习态与考试态共用）：原地重排 q.o，并按选项内容重算正确答案下标 q.a，
+   判分逻辑全部基于 q.a（下标），渲染与判分使用同一份对象，保证打乱后对错判定一致。 */
+function shufOpts(q){
+  if(!q||q.type==="code"||!Array.isArray(q.o)||q.o.length<2)return q;
+  const right=q.o[q.a];
+  const o=shuffle(q.o);
+  q.o=o;q.a=o.indexOf(right);
+  return q;
+}
 function dedup(qs){const seen=new Set(),r=[];for(const q of qs){const k=String((q&&q.q)||"").slice(0,50);if(k&&!seen.has(k)){seen.add(k);r.push(q)}}return r}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._tm);t._tm=setTimeout(()=>t.classList.remove("show"),2200)}
@@ -5714,7 +5723,7 @@ async function submitCode(){
 /* ---------- 测验引擎 ---------- */
 let quiz=null;
 function openQuiz(qs,ctx){
-  quiz={qs:shuffle(qs),i:0,correct:0,wrong:[],ctx,mode:ctx.mode,answered:false};
+  quiz={qs:shuffle(qs).map(shufOpts),i:0,correct:0,wrong:[],ctx,mode:ctx.mode,answered:false};
   const titles={placement:"定级测试",mini:"小测",section:"节测试",chapter:"章测试"};
   $("quiz-title").textContent=titles[quiz.mode];
   $("quiz-dontknow").style.display=quiz.mode==="placement"?"inline-block":"none";
@@ -6183,7 +6192,7 @@ let exam=null;
 function langExam(){return (LANG_DATA[curLang]&&LANG_DATA[curLang].exam)||{choice:[],code:[]}}
 function startExam(){
   const ex=langExam(),L=activeLang();
-  const choices=shuffle(ex.choice||[]).slice(0,40);
+  const choices=shuffle(ex.choice||[]).map(shufOpts).slice(0,40);
   let codes=[];
   if(ex.basic||ex.simple||ex.final){
     codes=codes.concat(shuffle(ex.basic||[]).slice(0,3))
@@ -6388,7 +6397,7 @@ function gradeBand(score,avgSrc){
 }
 function startGrade(){
   const L=activeLang();
-  grade={qs:buildGradeQuiz(),i:0,ans:{},codes:{},done:false};
+  grade={qs:buildGradeQuiz().map(shufOpts),i:0,ans:{},codes:{},done:false};
   $("grade-head-title").innerHTML=esc(L.gradeTitle)+" <small>只评级别</small>";
   const codeN=grade.qs.filter(q=>q.type==="code").length;
   const choiceN=grade.qs.length-codeN;
