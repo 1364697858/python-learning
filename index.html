@@ -418,6 +418,15 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
   .ch-grid{grid-template-columns:1fr}
   .lang-grid{grid-template-columns:1fr}
   .exam-code textarea,.kp-prac textarea,.quiz-code textarea{font-size:16px}
+  /* 整屏测试页窄屏适配：标题/元信息换行不被裁，题号与操作按钮允许折行 */
+  .exam-head{flex-wrap:wrap;gap:10px}
+  .exam-title{min-width:0;flex:1 1 auto;font-size:17px}
+  #quiz2-head-meta{flex-basis:100%;margin-top:0!important}
+  .exam-nav{flex-wrap:nowrap;overflow-x:auto;gap:6px;-webkit-overflow-scrolling:touch}
+  .exam-nav .n{flex:0 0 auto;width:30px;height:30px}
+  .exam-card{padding:16px 14px}
+  .exam-actions{flex-wrap:wrap;gap:10px}
+  .exam-actions .exam-pos{flex:1 1 100%;order:3}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -472,98 +481,6 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 @media (max-width:640px){
   .sg-item{flex-wrap:wrap;gap:6px}
   .sg-sn{flex-basis:100%}
-}
-/* ===== 局域网好友互动系统 ===== */
-.lan-top-btn{border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:12.5px;padding:7px 12px;border-radius:10px;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024;transition:.15s;white-space:nowrap}
-.lan-top-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(143,123,255,.4)}
-.lan-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink2);margin-bottom:12px;flex-wrap:wrap}
-.lan-status .dot{width:9px;height:9px;border-radius:50%;background:#5ee08a;box-shadow:0 0 8px rgba(94,224,138,.8)}
-.lan-status.off .dot{background:#ff5a5a;box-shadow:0 0 8px rgba(255,90,90,.8)}
-.lan-status b{color:#d8e2f5;font-weight:700}
-.lan-tip{background:linear-gradient(135deg,rgba(255,90,90,.12),rgba(255,154,90,.08));border:1px solid rgba(255,120,90,.35);border-radius:12px;padding:12px 14px;font-size:13.5px;color:#ffd9c9;line-height:1.7;margin-bottom:12px}
-.lan-tip b{color:#ffb38a}
-.lan-search input{width:100%;background:#0a0f22;border:1px solid var(--line);border-radius:12px;color:#d8e2f5;font-size:15px;padding:10px 14px;box-sizing:border-box;outline:none;font-family:inherit;margin-bottom:10px}
-.lan-online-list{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow:auto;padding-right:4px}
-.lan-user-row{display:flex;align-items:center;gap:10px;background:#141a33;border:1px solid var(--line);border-radius:14px;padding:10px 12px;animation:pop .25s}
-.lan-user-row .avatar{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;flex:none;font-size:17px}
-.lan-user-row .u-info{flex:1;min-width:0}
-.lan-user-row .u-name{font-weight:800;font-size:14.5px;color:#e8eefc}
-.lan-user-row .u-on{font-size:11.5px;color:#7ee8a2;margin-top:2px}
-.lan-user-row .u-ops{display:flex;gap:6px;flex-wrap:wrap}
-.lan-user-row .u-ops button{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;padding:6px 10px;border-radius:9px;color:#0c1024;background:linear-gradient(135deg,var(--acc1),var(--acc2));transition:.15s}
-.lan-user-row .u-ops button.ghost{color:#c9d6f5;background:#1c2347;border:1px solid var(--line)}
-.lan-user-row .u-ops button:hover{transform:translateY(-1px)}
-.lan-empty{text-align:center;color:var(--ink3);font-size:13.5px;padding:26px 10px;line-height:1.8}
-.lan-seg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
-.lan-seg .seg{border:1px solid var(--line);background:#0a0f22;color:var(--ink2);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
-.lan-seg .seg.on{background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024;border-color:transparent}
-.lan-seg .seg.small{padding:5px 9px;font-size:12px}
-.lan-field{margin-bottom:10px}
-.lan-field .lab{font-size:12.5px;color:var(--ink2);font-weight:700;margin-bottom:6px}
-.lan-field .lab b{color:#d8e2f5}
-.lan-chat{position:fixed;right:16px;bottom:16px;z-index:200;width:min(340px,calc(100vw - 32px));background:linear-gradient(165deg,#171d42,#101430);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;max-height:min(560px,70vh);animation:pop .28s cubic-bezier(.2,.9,.3,1.2)}
-.lan-chat .c-head{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line)}
-.lan-chat .c-head .avatar{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;flex:none}
-.lan-chat .c-head .nm{font-weight:800;font-size:14px;flex:1;color:#e8eefc}
-.lan-chat .c-head button{border:none;background:#1c2347;color:#c9d6f5;width:28px;height:28px;border-radius:9px;cursor:pointer;font-size:14px;line-height:1;font-family:inherit}
-.lan-chat .c-body{flex:1;overflow:auto;padding:12px 12px 6px;display:flex;flex-direction:column;gap:7px;min-height:180px}
-.lan-msg{max-width:82%;padding:8px 11px;border-radius:13px;font-size:13.5px;line-height:1.55;word-break:break-word;white-space:pre-wrap}
-.lan-msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024;border-bottom-right-radius:4px}
-.lan-msg.peer{align-self:flex-start;background:#1c2347;color:#d8e2f5;border-bottom-left-radius:4px}
-.lan-msg.sys{align-self:center;font-size:11.5px;color:var(--ink3);background:none;padding:2px 8px}
-.lan-chat .c-foot{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
-.lan-chat .c-foot input{flex:1;background:#0a0f22;border:1px solid var(--line);border-radius:10px;color:#d8e2f5;padding:9px 12px;font-size:13.5px;outline:none;font-family:inherit}
-.lan-chat .c-foot button{border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:13px;padding:9px 16px;border-radius:10px;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024}
-.lan-chat-min{position:fixed;right:16px;bottom:16px;z-index:200;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:13px;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024;box-shadow:0 14px 34px rgba(0,0,0,.5);display:flex;align-items:center;gap:8px;animation:pop .25s}
-.lan-chat-min .lan-badge{background:#ff5a5a;color:#fff;font-size:11px;font-weight:900;border-radius:50%;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px;box-sizing:border-box}
-.lan-battle-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.lan-battle-head .tt{font-weight:900;font-size:16px}
-.lan-battle-head .vs{font-size:12.5px;color:var(--ink2)}
-.lan-battle-head .vs b{color:#7ee8a2}
-.lan-battle-score{display:flex;gap:8px;align-items:center;background:#0a0f22;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;color:#d8e2f5;flex-wrap:wrap}
-.lan-battle-score b{color:var(--acc1);font-size:15px}
-.lan-qlist{display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow:auto;padding-right:4px}
-.lan-qcard{background:#141a33;border:1px solid var(--line);border-radius:14px;padding:13px 14px}
-.lan-qcard .q-num{font-size:11.5px;color:var(--acc1);font-weight:900;margin-bottom:6px}
-.lan-qcard .q-text{font-size:14px;color:#e8eefc;line-height:1.6;margin-bottom:10px;white-space:pre-wrap}
-.lan-qcard .opts{display:flex;flex-direction:column;gap:7px}
-.lan-qcard .opt{display:flex;align-items:center;gap:9px;background:#0a0f22;border:1px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:13.5px;color:#d8e2f5;transition:.15s;font-family:inherit}
-.lan-qcard .opt.sel{border-color:var(--acc1);background:rgba(143,123,255,.14);box-shadow:0 0 0 1px var(--acc1)}
-.lan-qcard .opt .k{font-weight:900;color:var(--acc1);font-size:12.5px}
-.lan-qcard .opt .tx{flex:1}
-.lan-qcard textarea{width:100%;background:#0a0d1d;border:1px solid var(--line);border-radius:10px;color:#c9f2ff;font-family:Consolas,"Courier New",monospace;font-size:13px;line-height:1.65;resize:vertical;min-height:110px;outline:none;padding:10px 12px;box-sizing:border-box}
-.lan-qcard .code-ops{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
-.lan-qcard .code-ops button{border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:12.5px;padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#0c1024}
-.lan-qcard .code-ops button.ghost{background:#1c2347;color:#c9d6f5;border:1px solid var(--line)}
-.lan-qcard .q-fb{margin-top:8px;font-size:12.5px;line-height:1.6;border-radius:9px;padding:7px 10px}
-.lan-qcard .q-fb.ok{background:rgba(94,224,138,.12);color:#9bf0b8;border:1px solid rgba(94,224,138,.35)}
-.lan-qcard .q-fb.bad{background:rgba(255,90,90,.12);color:#ffb0b0;border:1px solid rgba(255,90,90,.35)}
-.lan-battle-wait{text-align:center;padding:34px 12px;color:var(--ink2);font-size:14px;line-height:2}
-.lan-battle-wait .spin{width:26px;height:26px;border:3px solid rgba(143,123,255,.25);border-top-color:var(--acc1);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.lan-game-box{width:100%;max-width:720px;text-align:center}
-.lan-game-box canvas{width:100%;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f22,#141a33);display:block;touch-action:none}
-.lan-hud{display:flex;justify-content:space-between;gap:12px;margin:10px 0 4px;align-items:center}
-.lan-hud .hp{flex:1;text-align:left}
-.lan-hud .hp.r{text-align:right}
-.lan-hud .hp .nm{font-size:12px;color:var(--ink2);font-weight:700;margin-bottom:4px}
-.lan-hud .hp .bar{height:10px;background:#0a0f22;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.lan-hud .hp .bar i{display:block;height:100%;background:linear-gradient(90deg,#5ee08a,#3ecf6f);border-radius:6px;transition:width .15s}
-.lan-hud .hp.r .bar i{margin-left:auto;background:linear-gradient(90deg,#ff7a5a,#ff5a5a)}
-.lan-hud .mid{font-size:12.5px;color:var(--ink2);font-weight:700}
-.lan-game-ctrl{display:flex;gap:10px;margin-top:10px;align-items:center;justify-content:center}
-.lan-game-ctrl button{border:none;cursor:pointer;font-family:inherit;font-weight:900;font-size:14px;padding:11px 20px;border-radius:12px;background:#1c2347;color:#c9d6f5;border:1px solid var(--line);min-width:86px}
-.lan-game-ctrl button.fire{background:linear-gradient(135deg,#ff7a5a,#ff5a5a);color:#fff;min-width:120px;box-shadow:0 6px 18px rgba(255,90,90,.4)}
-.lan-game-ctrl button.fire.on{box-shadow:0 0 0 2px #ffd9c9,0 6px 18px rgba(255,90,90,.55)}
-.lan-game-ctrl button:hover{transform:translateY(-1px)}
-.lan-game-hint{font-size:11.5px;color:var(--ink3);margin-top:8px}
-@media (max-width:720px){
-  .lan-chat{right:10px;bottom:10px;width:calc(100vw - 20px);max-height:62vh}
-  .lan-chat-min{right:10px;bottom:10px}
-  .lan-game-ctrl button{min-width:72px;padding:12px 14px}
-  .lan-game-ctrl button.fire{min-width:100px}
-  .lan-user-row{flex-wrap:wrap}
-  .lan-user-row .u-ops{width:100%}
 }
 </style>
 </head>
@@ -680,7 +597,6 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
       <div class="brand"><span class="dot" id="home-dot">Py</span><div id="home-brandname">Python 编程<small id="home-brandsub">从入门到实战</small></div></div>
       <div class="userbox">
         <div class="home-langswitch" id="home-langswitch"></div>
-        <button class="lan-top-btn" onclick="lanOpenFriends()" style="margin-left:6px">👥 好友</button>
         <span id="home-userbox"></span>
       </div>
     </div>
@@ -765,6 +681,43 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
         <button class="btn ghost" onclick="gradeNext()" id="grade-next">下一题</button>
         <button class="btn gold" onclick="gradeSubmit()">交卷评级别</button>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：练习测试（小测 / 节测 / 章测，整屏，不用弹窗） ===== -->
+  <section class="screen" id="screen-quiz">
+    <div class="exam-head">
+      <button class="btn ghost small" onclick="quiz2Exit()">← 返回学习</button>
+      <div class="exam-title" id="quiz2-head-title">小测 <small>知识点练习</small></div>
+      <div class="exam-meta" id="quiz2-head-meta" style="margin:0"></div>
+    </div>
+    <div class="exam-meta" id="quiz2-meta">共 5 题</div>
+    <div class="exam-nav" id="quiz2-nav"></div>
+    <!-- 答题视图 -->
+    <div class="exam-card" id="quiz2-answer-view">
+      <div class="exam-q" id="quiz2-q"></div>
+      <div class="exam-opts" id="quiz2-opts"></div>
+      <div class="exam-code" id="quiz2-code" style="display:none">
+        <textarea id="quiz2-code-input" data-code="1" rows="9" spellcheck="false" placeholder="# 在下面写出完整代码，然后点「运行测试」"></textarea>
+        <div class="hint" id="quiz2-hint">答题时可随时点「运行」查看你程序的真实输出。交卷后系统会真机运行代码判分——直接把结果常量写死不计分，必须真正算出答案。需要键盘输入的题，运行后会在结果区提示你输入。</div>
+        <button class="btn violet" onclick="quiz2RunCode()">运行测试</button>
+        <div class="exam-fb" id="quiz2-fb"></div>
+      </div>
+      <div class="exam-actions">
+        <button class="btn ghost" onclick="quiz2Prev()" id="quiz2-prev">上一题</button>
+        <span class="exam-pos" id="quiz2-pos">1 / 5</span>
+        <button class="btn ghost" onclick="quiz2Next()" id="quiz2-next">下一题</button>
+        <button class="btn gold" onclick="quiz2Submit()">交卷</button>
+      </div>
+    </div>
+    <!-- 结果视图（整屏展示，不弹窗） -->
+    <div class="exam-card" id="quiz2-result-view" style="display:none">
+      <div class="res-score" id="quiz2-res-score"></div>
+      <div class="res-title" id="quiz2-res-title"></div>
+      <div class="res-sub" id="quiz2-res-sub"></div>
+      <div class="res-badge" id="quiz2-res-badge" style="display:none"></div>
+      <div class="res-wrong" id="quiz2-res-wrong"></div>
+      <div class="res-actions" id="quiz2-res-actions"></div>
     </div>
   </section>
 
@@ -923,8 +876,6 @@ const LANGS={
       ph:"// 在这里写 C 或 C++ 代码"}
 };
 let curLang="py";
-/* 局域网好友互动：全局状态（对象声明放顶部，避免初始渲染路径 TDZ） */
-const LAN={url:null,sid:null,user:null,online:false,lastId:0,users:[],hbTimer:null,pollTimer:null,chatPeer:null,chatMsgs:{},chatOpen_:false,chatMin_:false,unread:0,chalPeer:null,chalCfg:{lang:"py",count:10,range:1,kind:"choice"},battle:null,pendingInvite:null,game:null,setUrl:""};
 const LANG_DATA={};
 function registerLang(key,data){LANG_DATA[key]=data;}
 function activeLang(){return LANGS[curLang];}
@@ -1058,7 +1009,7 @@ print("hi")   # 行尾也可以写注释
      bank:[
       Q("Python 的注释用什么符号开头？",["#","//","/*","<!--"],0,"Python 用 # 表示注释，# 后面的内容运行时会忽略。","# 注释"),
       Q("注释的作用是？",["给代码写说明，方便阅读","让代码跑得更快","删除代码功能","让代码加密"],0,"注释是为了解释代码思路，不参与运行。","# 解释这段代码在干什么"),
-      Q(`print("a")  # 输出a，这行运行后显示？`,["a","# 输出a","a # 输出a","报错"],0,"# 后面的注释会被忽略，只输出 a。",`print("a")  # 输出a
+      Q(`print("a") 这行运行后显示？`,["a","# 输出a","a # 输出a","报错"],0,"# 后面的注释会被忽略，print 只输出引号里的 a。",`print("a")  # 输出a
 # 显示: a`),
       Q("想临时不让某行代码运行，最好的办法是？",["在这行前面加 #","删掉这行","重启电脑","换个变量名"],0,"把代码注释掉，它就不会执行，想恢复时删掉 # 即可。",`# print("先不运行这行")`),
       Q("下面哪条是规范的注释习惯？",["解释“为什么”这么做","每行代码都加注释","用乱码写注释","不写任何注释"],0,"注释解释思路和原因，不是把代码复述一遍，也不用每行都写。","# 用缓存加速，避免重复计算")]
@@ -1078,7 +1029,7 @@ print("y")                 # 接着输出 y`,
      ],
    extra:[
       Q(`print("1" + "2") 的输出是？`,["12","3","报错","1 + 2"],0,"字符串 + 是拼接，“1”+“2”=“12”。",`print("1" + "2")  # 12`),
-      Q("一段代码：print(3)  # 输出3，运行结果是？",["3","# 输出3","3 # 输出3","报错"],0,"# 后的注释被忽略，屏幕只显示 3。","print(3)  # 输出3")]
+      Q("一段代码：print(10 - 6)  # 这行说明不会被执行，屏幕显示什么？",["4","# 这行说明","10 - 6","报错"],0,"# 后面是注释，运行时被忽略；print 先算 10-6=4 再显示 4。","print(10 - 6)  # 4")]
   },
 ],
  extra:[
@@ -1226,10 +1177,12 @@ print(type(b))  # <class 'NoneType'>`,
   },
   {id:"2-3",title:"类型转换",kps:[
     {id:"2-3-1",gen:[{f:function(){return mkConv()},n:35}],title:"int() / float() / str()",terms:[{t:"类型转换",d:"把一种数据变成另一种，如 int(\"5\") 得到整数 5。"},{t:"整数 int",d:"没有小数点的数，如 3、-7。"},{t:"浮点数 float",d:"带小数点的数，如 3.14。"}],
-     exp:"int(\"42\") 把数字字符串变成整数 42；float(\"3.14\") 变成小数；str(42) 把数字变成字符串。转换后就能做对应类型的运算了。",
+     exp:"类型转换把一种数据变成另一种，常用三个内置函数：int(x) 把数字字符串或小数转成整数；float(x) 转成小数；str(x) 把数字（或其他值）转成字符串。参数与要点：int(\"42\") 得整数 42；int(3.9) 直接截断小数得 3（不是四舍五入）；float(\"3.14\") 得 3.14；str(2026) 得字符串 \"2026\"，可与文字拼接。易错点：① 字符串内容不是数字（如 \"abc\"）时 int/float 会抛 ValueError；② input() 读进来的永远是字符串，参与数学运算前必须先 int()/float()；③ 字符串和整数直接用 + 相加会报 TypeError，要先转成同类型。",
      code:`print(int("42") + 8)    # 50
 print(float("3") + 0.5)  # 3.5
-print(str(2026) + "年")  # 2026年`,
+print(str(2026) + "年")  # 2026年
+print(int(3.9))          # 3，截断小数，不是四舍五入
+# age = int(input("年龄: "))  # input 是字符串，先转整数再运算`,
      bank:[
       Q(`int("42") + 8 的结果是？`,["50","428","报错","42"],0,"int() 把字符串“42”变整数 42，42+8=50。",`print(int("42") + 8)  # 50`),
       Q(`float("3.5") 的结果是？`,["3.5","3","报错","35"],0,"float() 把字符串变成浮点数。",`print(float("3.5"))  # 3.5`),
@@ -4107,7 +4060,7 @@ function mkIntro(kind){const pools={
      ["虚拟环境的作用？",["隔离不同项目的依赖","加速电脑","备份文件","联网"],0,"虚拟环境让每个项目有自己的库。","python -m venv env"]]
 };const pool=pools[kind]||pools.what;const p=pool[rand(0,pool.length-1)];return Q(p[0],p[1],p[2],p[3],p[4]);}
 function mkPrintQ(){const t=rand(0,2);
- if(t===0){const n=rand(1,99);return Q("print("+n+") 的输出是？",[String(n),"报错","None","0"],0,"print 直接打印括号里的内容。","print("+n+")  # "+n);}
+ if(t===0){const a=rand(2,9),b=rand(2,9);const ans=a*b;const d=distract(ans);return Q("print("+a+" * "+b+") 的输出是？",d.opts,d.ans,"先算乘法 a × b，再把结果打印出来。","print("+a+" * "+b+")  # "+ans);}
  if(t===1){const n=rand(3,20);return Q("print(\"hi\") 的输出是？",["hi","报错","\"hi\"","Hi"],0,"print 打印字符串时不带引号。","print(\"hi\")  # hi");}
  const a=rand(2,9),b=rand(2,9);const d=distract(a+b);return Q("print("+a+" + "+b+") 的输出是？",d.opts,d.ans,"先算加法再打印结果。","print("+a+" + "+b+")  # "+(a+b));}
 function mkComment(){const pool=[
@@ -4930,7 +4883,7 @@ function jjCh1(){ // 第1章综合：解释器 + print + 注释 + 字符串
     ['>>> 提示符属于哪种模式？',['交互模式','脚本模式','编译模式','终端模式'],0,'>>> 是交互模式的提示符，适合快速试验。','>>> print(1)']
   ];
   const q=qs[r];
-  return jpair()?Q(q[0],q[1],q[2],q[3],q[4]):C('请写出完整代码：用 print 输出字符串 "hello python"。','hello python','一行 print 即可：print("hello python")。','print("hello python")');
+  return jpair()?Q(q[0],q[1],q[2],q[3],q[4]):C('请写出完整代码：定义变量 s 为 "python"，用 print 输出 "hello " 拼接 s 的结果。','hello python','先给变量赋值，再用 + 把两个字符串拼起来打印。','s = "python"\nprint("hello " + s)');
 }
 function jjCh2(){ // 第2章综合：变量 + 类型 + 转换
   const r=jr(0,3);
@@ -5162,7 +5115,6 @@ function renderHomeIfActive(){
 /* ---------- 登录 ---------- */
 function ava(name){const c=[...name].reduce((s,ch)=>s+ch.charCodeAt(0),0)%10;return c}
 function renderLogin(){
-  lanLogout();
   const g=$("acct-grid");g.innerHTML="";
   const names=Object.keys(SAVE.accounts);
   if(names.length===0){const e=document.createElement("div");e.className="empty-accts";e.innerHTML="<div class='ea'>还没有账号，先在下面输入你的名字，点「创建新账号」开始冒险吧</div>";g.appendChild(e)}
@@ -5190,7 +5142,6 @@ function login(name){
   if(!SAVE.accounts[name]){SAVE.accounts[name]=emptyAcc()}
   SAVE.current=name;persist();
   showEntry(name,false);
-  LAN.user=name; lanLogin();
 }
 function addAccount(){
   const v=$("new-name").value.trim();
@@ -5510,19 +5461,19 @@ function finishPractice(){
 function startMiniQuiz(){
   closeModal("kp-modal");
   if(!curKp)return;
-  const qs=shuffle(dedup(curKp._all)).slice(0,2);
-  openQuiz(qs,{mode:"mini",kp:curKp,sec:curSec});
+  const ch=COURSE.find(c=>c.id===curChapter);
+  startWholeQuiz("mini",ch,curSec,curKp);
 }
 
-/* ---------- 节 / 章测试（随机抽题） ---------- */
+/* ---------- 节 / 章测试（随机抽题，整屏） ---------- */
 function startSectionTest(chId,secId){
   const ch=COURSE.find(c=>c.id===chId);
   const sec=ch.sections.find(s=>s.id===secId);
-  openQuiz(shuffle(dedup(secBank(sec))).slice(0,5),{mode:"section",ch,sec});
+  startWholeQuiz("section",ch,sec,null);
 }
 function startChapterTest(chId){
   const ch=COURSE.find(c=>c.id===chId);
-  openQuiz(shuffle(dedup(chBank(ch))).slice(0,10),{mode:"chapter",ch});
+  startWholeQuiz("chapter",ch,null,null);
 }
 
 /* ---------- 代码运行（Skulpt，浏览器内跑 Python） ---------- */
@@ -6626,6 +6577,278 @@ async function gradeSubmit(){
 function gradeNext(){if(grade.i<grade.qs.length-1){grade.i++;renderGradeNav();renderGradeQ();}}
 function gradePrev(){if(grade.i>0){grade.i--;renderGradeNav();renderGradeQ();}}
 
+/* ===== 练习测试整屏引擎（小测 / 节测 / 章测；定级 placement 仍走旧 quiz 弹窗） ===== */
+let quiz2=null;
+
+function quiz2Pool(mode,ch,sec,kp){
+  const choice=[],code=[];
+  const push=qs=>{(qs||[]).forEach(q=>{if(q.type==="code")code.push(q);else choice.push(q)})};
+  if(mode==="mini"){push(materialize(kp));if(sec)push(secBank(sec));if(ch)push(chBank(ch));}
+  else if(mode==="section"){
+    push(secBank(sec));
+    if(ch)chBank(ch).forEach(q=>{if(q.type==="code")code.push(q)}); // 本节代码题不足时从本章补实操题
+  }
+  else{push(chBank(ch));}
+  return {choice:dedup(choice),code:dedup(code)};
+}
+
+function quiz2Build(mode,ch,sec,kp){
+  const total=mode==="chapter"?15:5;
+  const {choice,code}=quiz2Pool(mode,ch,sec,kp);
+  const wantCode=Math.min(code.length,Math.round(total/3));
+  const wantChoice=total-wantCode;
+  const codes=shuffle(code).slice(0,wantCode);
+  const choices=shuffle(choice).slice(0,wantChoice);
+  let out=choices.concat(codes);
+  if(out.length<total){shuffle(choice).forEach(q=>{if(out.length<total&&!out.includes(q))out.push(q)})}
+  return shuffle(out).slice(0,total);
+}
+
+function startWholeQuiz(mode,ch,sec,kp){
+  const qs=quiz2Build(mode,ch,sec,kp).map(q=>shufOpts(q));
+  quiz2={qs,ch,sec,kp,mode,i:0,ans:{},codes:{},done:false};
+  const titles={mini:"知识点小测",section:"节测试",chapter:"章末测试"};
+  $("quiz2-head-title").innerHTML=esc(activeLang().name)+" · "+titles[mode]+" <small>整卷练习</small>";
+  const cn=qs.filter(q=>q.type==="code").length;
+  $("quiz2-head-meta").textContent="选择题 "+(qs.length-cn)+" 题 · 代码题 "+cn+" 题";
+  $("quiz2-meta").textContent="共 "+qs.length+" 题 · 可在题号间来回修改，答完点交卷统一判分";
+  $("quiz2-answer-view").style.display="block";
+  $("quiz2-result-view").style.display="none";
+  renderQuiz2Nav();renderQuiz2Q();
+  show("screen-quiz");
+}
+
+function renderQuiz2Nav(){
+  const nav=$("quiz2-nav");nav.innerHTML="";
+  quiz2.qs.forEach((q,i)=>{
+    const b=document.createElement("button");
+    b.className="n"+(i===quiz2.i?" cur":"")+((quiz2.ans[i]!==undefined||quiz2.codes[i])?" done":"")+(q.type==="code"?" codep":"");
+    b.textContent=i+1;
+    b.onclick=()=>{quiz2.i=i;renderQuiz2Nav();renderQuiz2Q()};
+    nav.appendChild(b);
+  });
+}
+
+function renderQuiz2Q(){
+  const q=quiz2.qs[quiz2.i],i=quiz2.i;
+  $("quiz2-pos").textContent=(i+1)+" / "+quiz2.qs.length;
+  const kind=q.type==="code"?"代码实操题":"选择题";
+  $("quiz2-q").textContent="【"+kind+"】\n"+q.q;
+  const opts=$("quiz2-opts"),codeBox=$("quiz2-code");
+  if(q.type==="code"){
+    opts.style.display="none";codeBox.style.display="block";
+    $("quiz2-code-input").value=(quiz2.codes[i]&&quiz2.codes[i].code)||"";
+    renderQuiz2Fb(i);
+  }else{
+    opts.style.display="flex";codeBox.style.display="none";
+    opts.innerHTML=q.o.map((o,k)=>"<div class='opt' id='quiz2-opt-"+k+"' onclick='quiz2Pick("+i+","+k+")'>"+esc(o)+"</div>").join("");
+    opts.querySelectorAll(".opt").forEach(el=>{if(quiz2.ans[i]!==undefined&&el.id==="quiz2-opt-"+quiz2.ans[i])el.classList.add("sel")});
+  }
+  $("quiz2-prev").disabled=i===0;
+  $("quiz2-next").disabled=i===quiz2.qs.length-1;
+}
+
+function quiz2Pick(i,k){
+  quiz2.ans[i]=k;
+  const opts=$("quiz2-opts");
+  opts.querySelectorAll(".opt").forEach(el=>el.classList.remove("sel"));
+  $("quiz2-opt-"+k).classList.add("sel");
+  renderQuiz2Nav();
+}
+
+function renderQuiz2Fb(i){
+  const r=quiz2.codes[i],fb=$("quiz2-fb");
+  if(!r){fb.innerHTML="";return;}
+  if(r.err){fb.innerHTML="<div class='fb-t bad'>运行报错</div><div class='code'>"+esc(r.err.slice(0,300))+"</div>";return;}
+  fb.innerHTML="<div class='fb-t'>运行结果（这是你程序的真实输出）</div>"+
+    "<div class='lab'>你的输出</div><div class='code'>"+esc(r.out===""||r.out==null?"（程序没有输出任何内容）":r.out)+"</div>";
+}
+
+async function quiz2RunCode(){
+  const i=quiz2.i,q=quiz2.qs[i];if(q.type!=="code")return;
+  const code=$("quiz2-code-input").value;
+  if(!code.trim()){toast("先写点代码再运行");return}
+  if(dangerous(code)){toast("不要写死循环哦");return}
+  const fb=$("quiz2-fb");
+  fb.innerHTML="<div class='fb-t'>"+(curLang==="py"?"运行中…":"云端编译运行中…（约 2~6 秒）")+"</div>";
+  const res=await runCode(code,q._in||"");
+  if(res.noSk){fb.innerHTML="<div class='fb-t bad'>代码运行器没加载（Python 引擎需要随页面一起打开）</div>";return;}
+  if(res.net){fb.innerHTML="<div class='fb-t bad'>"+esc(res.err)+"</div>";return;}
+  if(res.err){quiz2.codes[i]={code,err:String(res.err).slice(0,300)};renderQuiz2Fb(i);return;}
+  quiz2.codes[i]={code,out:res.out};
+  renderQuiz2Fb(i);renderQuiz2Nav();
+}
+
+function quiz2Next(){if(quiz2.i<quiz2.qs.length-1){quiz2.i++;renderQuiz2Nav();renderQuiz2Q();}}
+function quiz2Prev(){if(quiz2.i>0){quiz2.i--;renderQuiz2Nav();renderQuiz2Q();}}
+
+function quiz2Exit(){
+  if(quiz2&&!quiz2.done&&!confirm("确定退出本次测试？当前作答不会保存"))return;
+  quiz2=null;
+  renderLearn(curChapter);show("screen-learn");
+}
+
+function quiz2WrongHtml(wrong){
+  if(!wrong.length)return "";
+  let h="<div class='w-t'>错题回顾</div>";
+  wrong.forEach(w=>{
+    if(w.code){
+      const detail=w.reason==="err"&&w.err?"<div class='code'>"+esc(w.err.slice(0,200))+"</div>"
+        :w.out!=null?"<div class='lab'>你的输出</div><div class='code'>"+esc(w.out)+"</div><div class='lab'>期望输出</div><div class='code'>"+esc(w.q.out)+"</div>"
+        :"<div>未作答或未运行</div>";
+      h+="<div class='wi'><b>代码题 #"+(w.i+1)+" · 未通过</b><div class='wa' style='color:var(--gold)'>"+esc(JUDGE_TEXT[w.reason]||JUDGE_TEXT.mismatch)+"</div>"+detail+
+        "<div class='lab'>参考代码</div><div class='code'>"+esc(w.q.solution)+"</div><div class='lab'>解析</div><div>"+esc(w.q.explain)+"</div></div>";
+    }else{
+      h+="<div class='wi'><b>选择题 #"+(w.i+1)+" · 未答对</b><div class='q'>"+esc(w.q.q)+"</div>"+
+        "<div class='lab'>你的答案</div><div class='rr-your'>"+esc(w.ans===undefined?"未作答":w.q.o[w.ans])+"</div>"+
+        "<div class='lab'>正确答案</div><div class='rr-right'>"+esc(w.q.o[w.q.a])+"</div>"+
+        "<div class='lab'>解析</div><div>"+esc(w.q.t||w.q.explain||"")+"</div></div>";
+    }
+  });
+  return h;
+}
+
+function quiz2ShowResult(scoreHtml,title,sub,wrongHtml,actions){
+  $("quiz2-answer-view").style.display="none";
+  $("quiz2-result-view").style.display="block";
+  $("quiz2-res-score").innerHTML=scoreHtml;
+  $("quiz2-res-title").textContent=title;
+  $("quiz2-res-sub").innerHTML=sub||"";
+  $("quiz2-res-badge").style.display="none";
+  $("quiz2-res-wrong").innerHTML=wrongHtml||"";
+  $("quiz2-res-actions").innerHTML=actions||"";
+  window.scrollTo(0,0);
+}
+
+function quiz2ResetSection(sec){
+  const acc=getAcc(SAVE.current);
+  sec.kps.forEach(kp=>{delete acc.kps[kp.id]});
+  delete acc.secTests[sec.id];delete acc.secRetry[sec.id];
+  persist();addPoints(-5,"-5 星 · 本节需要重新学习");
+}
+function quiz2ResetChapter(ch){
+  const acc=getAcc(SAVE.current);
+  ch.sections.forEach(sec=>{sec.kps.forEach(kp=>{delete acc.kps[kp.id]});delete acc.secTests[sec.id];delete acc.secRetry[sec.id]});
+  delete acc.chTests[ch.id];delete acc.chRetry[ch.id];
+  persist();addPoints(-5,"-5 星 · 本章需要重新学习");
+}
+
+function quiz2ApplyReward(correct,wrong){
+  const acc=getAcc(SAVE.current);if(!acc)return;
+  const {mode,ch,sec,kp}=quiz2;
+  const total=quiz2.qs.length;
+  const wrongHtml=quiz2WrongHtml(wrong);
+  if(mode==="mini"){
+    const pass=correct===total;
+    const done=!!acc.kps[kp.id];
+    if(pass){
+      if(!done){acc.kps[kp.id]=true;persist();addPoints(5,"+5 星！知识点已掌握");}
+      quiz2ShowResult("<span style='color:var(--ok)'>"+correct+" / "+total+"</span>","小测通过！","这个知识点你已经掌握啦"+(!done?"，获得 5 星":"")+(wrongHtml?"，错题解析如下：":""),wrongHtml,
+        "<button class='btn violet' onclick='quiz2BackLearn()'>继续学习</button>");
+    }else{
+      quiz2ShowResult("<span style='color:var(--bad)'>"+correct+" / "+total+"</span>","差一点点，再试试","做错的题解析如下，看懂了就能过：",wrongHtml,
+        "<button class='btn ghost' onclick='quiz2BackKp()'>回去复习</button><button class='btn violet' onclick='quiz2Retry()'>再测一次</button>");
+    }
+    return;
+  }
+  const score=Math.round(correct/total*100);
+  if(mode==="section"){
+    const passed=score>=80;
+    const secPassed=!!acc.secTests[sec.id];
+    if(passed){
+      if(!secPassed){acc.secTests[sec.id]=true;delete acc.secRetry[sec.id];persist();addPoints(10,"+10 星！节测试通过，下一节已解锁");}
+      quiz2ShowResult("<span style='color:var(--ok)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> 分</span>","节测试通过！",(secPassed?"又巩固了一次，好样的":"解锁了下一节，继续前进！")+(wrongHtml?"，错题解析：":""),wrongHtml,
+        "<button class='btn violet' onclick='quiz2BackLearn()'>继续学习</button>");
+      return;
+    }
+    if(score>=60){
+      const tried=acc.secRetry[sec.id]>=1;
+      if(!tried){
+        acc.secRetry[sec.id]=1;addPoints(-1,"-1 星");
+        quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> 分</span>","60~79 分 · 先看错题，二次测试","把错题解析看完再考一次；若二次测试仍不到 80 分，就要重新学习本节。",wrongHtml,
+          "<button class='btn violet' onclick='quiz2Retry()'>二次测试</button><button class='btn ghost' onclick='quiz2BackLearn()'>回去复习</button>");
+      }else{
+        quiz2ResetSection(sec);
+        quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> 分</span>","二次测试仍不到 80 分，重新学习本节","本节的进度已重置，只解锁第 1 个知识点，其余重新按顺序学。错题解析在下面。",wrongHtml,
+          "<button class='btn violet' onclick='quiz2BackLearn()'>重新学习本节</button>");
+      }
+      return;
+    }
+    quiz2ResetSection(sec);
+    quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> 分</span>","60 分以下 · 重新学习本节","本节进度已重置：只解锁第 1 个知识点，其他重新按顺序学。错题解析在下面。",wrongHtml,
+      "<button class='btn violet' onclick='quiz2BackLearn()'>重新学习本节</button>");
+    return;
+  }
+  // chapter
+  const ct=acc.chTests[ch.id];
+  if(score>=80){
+    const first=!(ct&&ct.passed);
+    acc.chTests[ch.id]={passed:true,score};persist();
+    addPoints(first?15:5,first?"+15 星！章末测试通过":"+5 星 巩固奖励");
+    delete acc.chRetry[ch.id];
+    if(ch.id<COURSE.length){acc.chUnlocked[ch.id+1]=true;persist()}
+    quiz2ShowResult("<span style='color:var(--gold)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> / 100 分</span>","章末测试通过！",
+      (ch.id<COURSE.length?"下一章「"+COURSE[ch.id].title+"」已解锁！":first?"恭喜通关全部课程！你已经是黑客大佬了":"又巩固了一次，好样的")+(wrongHtml?"，错题解析：":""),wrongHtml,
+      "<button class='btn violet' onclick='goHome()'>回主页看看新等级</button>"+
+      (ch.id<COURSE.length?"<button class='btn ghost' onclick='quiz2GoChapter("+(ch.id+1)+")'>去下一章</button>":""));
+    return;
+  }
+  if(score>=60){
+    const tried=acc.chRetry[ch.id]>=1;
+    if(!tried){
+      acc.chRetry[ch.id]=1;addPoints(-2,"-2 星");
+      quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> / 100 分</span>","60~79 分 · 先看错题，二次测试","把错题解析看完再考一次；若二次测试仍不到 80 分，就要重新学习本章。",wrongHtml,
+        "<button class='btn violet' onclick='quiz2Retry()'>二次测试</button><button class='btn ghost' onclick='quiz2BackLearn()'>回去复习</button>");
+    }else{
+      quiz2ResetChapter(ch);
+      quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> / 100 分</span>","二次测试仍不到 80 分，重新学习本章","本章进度已重置：只解锁第 1 节，其他小节全部锁上，从头按顺序再学一遍。错题解析在下面。",wrongHtml,
+        "<button class='btn violet' onclick='quiz2BackLearn()'>重新学习本章</button>");
+    }
+    return;
+  }
+  quiz2ResetChapter(ch);
+  quiz2ShowResult("<span style='color:var(--bad)'>"+score+"</span><span style='font-size:.45em;color:var(--ink3)'> / 100 分</span>","60 分以下 · 重新学习本章","本章进度已重置：只解锁第 1 节，其他小节全部锁上，从头按顺序再学一遍。错题解析在下面。",wrongHtml,
+    "<button class='btn violet' onclick='quiz2BackLearn()'>重新学习本章</button>");
+}
+
+async function quiz2Submit(){
+  if(!quiz2||quiz2.done)return;
+  const unanswered=quiz2.qs.filter((q,i)=>q.type==="code"?!quiz2.codes[i]:quiz2.ans[i]===undefined).length;
+  if(unanswered>0&&!confirm("还有 "+unanswered+" 题未作答，确定交卷吗？"))return;
+  quiz2.done=true;
+  $("quiz2-answer-view").style.display="none";
+  $("quiz2-result-view").style.display="block";
+  $("quiz2-res-score").innerHTML="<div class='big' style='font-size:22px'>判卷中…</div>";
+  $("quiz2-res-title").textContent="正在逐题核对，请稍候";
+  $("quiz2-res-sub").textContent=curLang!=="py"?"云端编译判分约需几十秒，请勿关闭页面":"正在判分…";
+  $("quiz2-res-wrong").innerHTML="";$("quiz2-res-actions").innerHTML="";$("quiz2-res-badge").style.display="none";
+
+  let correct=0;const wrong=[];
+  for(let i=0;i<quiz2.qs.length;i++){
+    const q=quiz2.qs[i];
+    if(q.type!=="code"){
+      if(quiz2.ans[i]===q.a)correct++;
+      else wrong.push({i,q,ans:quiz2.ans[i],code:false});
+    }else{
+      const r=quiz2.codes[i];
+      const prior=r&&!r.err?r.out:undefined;
+      const jr=await judgeCode(q,r?r.code:"",curLang,prior,false);
+      if(jr.ok)correct++;
+      else wrong.push({i,q,code:true,reason:jr.reason,out:jr.out,err:jr.err});
+    }
+  }
+  quiz2ApplyReward(correct,wrong);
+}
+
+function quiz2Retry(){
+  if(!quiz2)return;
+  const {mode,ch,sec,kp}=quiz2;
+  startWholeQuiz(mode,ch,sec,kp);
+}
+function quiz2BackLearn(){quiz2=null;renderLearn(curChapter);show("screen-learn");}
+function quiz2BackKp(){const k=quiz2;quiz2=null;if(k&&k.sec&&k.kp)openKp(curChapter,k.sec.id,k.kp.id);else quiz2BackLearn();}
+function quiz2GoChapter(chId){quiz2=null;goChapter(chId);}
+
 /* ---------- 注册三门语言（课程 + 考级题库）。Java / C·C++ 课程数据在后续注入 ---------- */
 registerLang("py",{course:COURSE,exam:{choice:NCRE_Q,basic:NCRE_BASIC,simple:NCRE_SIMPLE,final:NCRE_FINAL}});
 
@@ -7211,694 +7434,8 @@ function buildCppExam(course){
 }
 registerLang("cpp",{course:CPP_COURSE,exam:buildCppExam(CPP_COURSE)});
 //===CPP_END===
-//===LAN_START===
-/* ============ 局域网好友互动系统 ============ */
-const LAN_LANGS=[{id:"py",name:"Python",course:COURSE},{id:"java",name:"Java",course:JAVA_COURSE},{id:"cpp",name:"C/C++",course:CPP_COURSE}];
-function lanSid(){ if(!localStorage.lan_sid) localStorage.lan_sid="s-"+Math.random().toString(36).slice(2)+Date.now().toString(36); return localStorage.lan_sid; }
-function lanDefaultUrls(){
-  const cands=[];
-  if(localStorage.lan_url) cands.push(localStorage.lan_url);
-  if(location.hostname) cands.push("http://"+location.hostname+":8000");
-  cands.push("http://localhost:8000");
-  return cands;
-}
-async function lanProbe(url){
-  try{ const r=await fetch(url+"/api/status",{signal:AbortSignal.timeout(2500)}); if(!r.ok)return false; const j=await r.json(); return !!(j&&j.ok); }catch(e){ return false; }
-}
-async function lanConnect(){
-  if(!LAN.user) return;
-  const cands=lanDefaultUrls();
-  let ok=false;
-  for(const u of cands){ if(await lanProbe(u)){ LAN.url=u; ok=true; break; } }
-  if(!ok){ LAN.url=null; LAN.online=false; lanRenderStatus(); toast("未连接局域网服务器，请先在主机运行启动脚本"); return; }
-  LAN.online=true; localStorage.lan_url=LAN.url;
-  await lanHeartbeat();
-  lanStartTimers();
-  lanRenderStatus();
-}
-function lanStartTimers(){ lanStopTimers(); LAN.hbTimer=setInterval(lanHeartbeat,5000); LAN.pollTimer=setInterval(lanPoll,700); }
-function lanStopTimers(){ if(LAN.hbTimer)clearInterval(LAN.hbTimer); if(LAN.pollTimer)clearInterval(LAN.pollTimer); LAN.hbTimer=LAN.pollTimer=null; }
-async function lanHeartbeat(){
-  if(!LAN.url||!LAN.user) return;
-  try{
-    const r=await fetch(LAN.url+"/api/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user:LAN.user,sid:lanSid()})});
-    const j=await r.json();
-    if(j.kicked){ lanKicked(); return; }
-    LAN.users=j.users||[];
-    if($("lan-friends-modal").classList.contains("show")) lanRenderFriends();
-  }catch(e){ lanDrop(); }
-}
-async function lanPoll(){
-  if(!LAN.url||!LAN.user) return;
-  try{
-    const r=await fetch(LAN.url+"/api/poll?user="+encodeURIComponent(LAN.user)+"&since="+LAN.lastId);
-    const j=await r.json();
-    for(const m of (j.msgs||[])){ if(m.id>LAN.lastId){ LAN.lastId=m.id; lanHandle(m); } }
-  }catch(e){}
-}
-async function lanSend(o){
-  if(!LAN.online){ toast("未连接局域网服务器"); return false; }
-  try{
-    const r=await fetch(LAN.url+"/api/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({from:LAN.user,to:o.to,type:o.type,data:o.data})});
-    const j=await r.json(); return !!(j&&j.ok);
-  }catch(e){ lanDrop(); toast("发送失败：服务器连接断开"); return false; }
-}
-function lanDrop(){ if(LAN.online){ LAN.online=false; lanRenderStatus(); } }
-function lanKicked(){
-  LAN.online=false; lanStopTimers();
-  toast("账号已在其它设备登录，本会话已断开");
-  lanRenderStatus();
-}
-function lanLogin(){ lanConnect(); }
-function lanLogout(){
-  lanStopTimers(); LAN.online=false; LAN.user=null; LAN.users=[];
-  LAN.lastId=0; LAN.chatPeer=null; LAN.chatMsgs={}; LAN.unread=0; LAN.chatOpen_=LAN.chatMin_=false;
-  const c=$("lan-chat"); if(c)c.style.display="none";
-  const m=$("lan-chat-min"); if(m)m.style.display="none";
-  if(LAN.battle){ closeModal("lan-battle-modal"); LAN.battle=null; }
-  if(LAN.game){ if(LAN.game._iv)clearInterval(LAN.game._iv); closeModal("lan-game-modal"); LAN.game=null; }
-  LAN.pendingInvite=null;
-}
-function lanHandle(m){
-  const d=m.data||{};
-  switch(m.type){
-    case "chat": lanOnChat(m.from,d.text); break;
-    case "chal_invite": lanOnChalInvite(m.from,d); break;
-    case "chal_accept": lanOnChalAccept(m.from,d); break;
-    case "chal_reject": lanOnChalReject(m.from,d); break;
-    case "chal_questions": lanOnChalQuestions(m.from,d); break;
-    case "chal_done": lanOnChalDone(m.from,d); break;
-    case "chal_result": lanOnChalResult(m.from,d); break;
-    case "chal_cancel": lanOnChalCancel(m.from,d); break;
-    case "game_invite": lanOnGameInvite(m.from,d); break;
-    case "game_accept": lanOnGameAccept(m.from,d); break;
-    case "game_reject": lanOnGameReject(m.from,d); break;
-    case "game_state": lanOnGameState(m.from,d); break;
-    case "game_over": lanOnGameOver(m.from,d); break;
-    case "game_quit": lanOnGameQuit(m.from,d); break;
-  }
-}
-
-/* ---- 好友面板 ---- */
-function lanOpenFriends(){
-  showModal("lan-friends-modal");
-  lanRenderStatus();
-  lanRenderFriends();
-  if(!LAN.user) $("lan-online-list").innerHTML='<div class="lan-empty">请先登录账号，再用好友功能</div>';
-}
-function lanOpenSet(){
-  $("lan-set-url").value=LAN.setUrl||localStorage.lan_url||"";
-  showModal("lan-set-modal");
-}
-function lanSaveSet(){
-  const v=$("lan-set-url").value.trim();
-  if(!v){ toast("请输入服务器地址"); return; }
-  localStorage.lan_url=v; LAN.setUrl=v;
-  closeModal("lan-set-modal");
-  LAN.url=null; LAN.online=false;
-  if(LAN.user) lanConnect();
-  else { lanRenderStatus(); toast("登录后自动连接服务器"); }
-}
-function lanRenderStatus(){
-  const el=$("lan-status"); if(!el) return;
-  const on=LAN.online;
-  el.className="lan-status"+(on?"":" off");
-  $("lan-status-text").textContent=on?"已连接局域网服务器":"未连接服务器";
-  $("lan-status-url").textContent=(on&&LAN.url)?LAN.url.replace(/^https?:\/\//,""):"";
-  const tip=$("lan-tip"); if(tip) tip.style.display=on?"none":"block";
-}
-function lanRenderFriends(){
-  const list=$("lan-online-list"); if(!list) return;
-  if(!LAN.user){ list.innerHTML='<div class="lan-empty">请先登录账号</div>'; return; }
-  const q=($("lan-search").value||"").trim();
-  if(!LAN.online){
-    list.innerHTML='<div class="lan-empty">未连接局域网服务器<br>请先在主机运行「启动局域网服务器.bat」</div>';
-    return;
-  }
-  const others=LAN.users.filter(u=>u.user!==LAN.user);
-  const flt=others.filter(u=>!q||u.user.indexOf(q)>=0);
-  if(!flt.length){
-    list.innerHTML='<div class="lan-empty">'+(others.length?"没有匹配的好友":"当前局域网暂无其它在线账号<br>让好友也登录本学习站（同一服务器地址）即可看到彼此")+"</div>";
-    return;
-  }
-  list.innerHTML=flt.map(u=>{
-    const av="linear-gradient(135deg,hsl("+(ava(u.user)*36)+" 70% 60%,hsl("+(ava(u.user)*36+40)+" 80% 45%))";
-    return "<div class='lan-user-row'><span class='avatar' style='background:"+av+"'>"+esc(u.user[0])+"</span>"+
-      "<div class='u-info'><div class='u-name'>"+esc(u.user)+"</div><div class='u-on'>● 在线</div></div>"+
-      "<div class='u-ops'><button onclick=\"lanOpenChat('"+esc(u.user)+"')\">💬 聊天</button>"+
-      "<button class='ghost' onclick=\"lanOpenChal('"+esc(u.user)+"')\">⚔️ 挑战</button>"+
-      "<button class='ghost' onclick=\"lanGameInvite('"+esc(u.user)+"')\">🎮 游戏</button></div></div>";
-  }).join("");
-}
-
-/* ---- 聊天 ---- */
-function lanChatVisible(){ return $("lan-chat")&&$("lan-chat").style.display!=="none"; }
-function lanOpenChat(peer){
-  if(!LAN.user){ toast("请先登录"); return; }
-  if(!LAN.online){ toast("未连接局域网服务器"); return; }
-  LAN.chatPeer=peer;
-  $("lan-chat").style.display="flex";
-  $("lan-chat-min").style.display="none";
-  const av="linear-gradient(135deg,hsl("+(ava(peer)*36)+" 70% 60%,hsl("+(ava(peer)*36+40)+" 80% 45%))";
-  $("lan-chat-ava").style.background=av;
-  $("lan-chat-ava").textContent=peer[0];
-  $("lan-chat-peer").textContent=peer+(LAN.online?" · 在线":"");
-  if(!LAN.chatMsgs[peer]) LAN.chatMsgs[peer]=[];
-  LAN.unread=0; LAN.chatMin_=false;
-  lanRenderChat();
-  setTimeout(()=>{const b=$("lan-chat-body"); if(b)b.scrollTop=b.scrollHeight;},30);
-}
-function lanMinChat(){ $("lan-chat").style.display="none"; $("lan-chat-min").style.display="flex"; }
-function lanCloseChat(){ $("lan-chat").style.display="none"; $("lan-chat-min").style.display="none"; LAN.chatPeer=null; }
-function lanRestoreChat(){ if(LAN.chatPeer) lanOpenChat(LAN.chatPeer); else { toast("先点好友列表里的「聊天」开始对话"); lanOpenFriends(); } }
-function lanRenderChat(){
-  const body=$("lan-chat-body"); if(!body) return;
-  const msgs=LAN.chatMsgs[LAN.chatPeer]||[];
-  body.innerHTML=(msgs.length?msgs.map(m=>"<div class='lan-msg "+(m.me?"me":"peer")+"'>"+esc(m.text)+"</div>").join(""):"<div class='lan-msg sys'>打个招呼，开始聊天吧～</div>")+
-    "<div class='lan-msg sys' id='lan-chat-scroll-anchor'></div>";
-}
-function lanOnChat(from,text){
-  if(!LAN.chatMsgs[from]) LAN.chatMsgs[from]=[];
-  LAN.chatMsgs[from].push({me:false,text:String(text).slice(0,2000)});
-  if(lanChatVisible()&&LAN.chatPeer===from){ lanRenderChat(); setTimeout(()=>{const b=$("lan-chat-body"); if(b)b.scrollTop=b.scrollHeight;},30); }
-  else { LAN.unread++; const b=$("lan-chat-badge"); if(b){ b.style.display="flex"; b.textContent=LAN.unread>9?"9+":LAN.unread; } $("lan-chat-min").style.display="flex"; }
-}
-async function lanSendChat(){
-  const inp=$("lan-chat-input"); const v=(inp.value||"").trim();
-  if(!v||!LAN.chatPeer) return;
-  if(!LAN.online){ toast("未连接局域网服务器"); return; }
-  if(!LAN.chatMsgs[LAN.chatPeer]) LAN.chatMsgs[LAN.chatPeer]=[];
-  LAN.chatMsgs[LAN.chatPeer].push({me:true,text:v});
-  inp.value=""; lanRenderChat();
-  setTimeout(()=>{const b=$("lan-chat-body"); if(b)b.scrollTop=b.scrollHeight;},30);
-  const ok=await lanSend({type:"chat",to:LAN.chatPeer,data:{text:v}});
-  if(!ok){ LAN.chatMsgs[LAN.chatPeer].pop(); lanRenderChat(); }
-}
-
-/* ---- 答题挑战 ---- */
-function lanOpenChal(peer){
-  if(!LAN.online){ toast("未连接局域网服务器"); return; }
-  if(LAN.battle){ toast("先结束当前对战再发起新挑战"); return; }
-  LAN.chalPeer=peer; LAN.chalCfg={lang:"py",count:10,range:1,kind:"choice"};
-  $("lan-chal-peer").textContent=peer;
-  lanChalRenderAll();
-  showModal("lan-chal-modal");
-}
-function lanChalRenderAll(){
-  const c=LAN.chalCfg;
-  $("lan-chal-lang").innerHTML=LAN_LANGS.map(l=>"<button class='seg"+(c.lang===l.id?" on":"")+"' onclick=\"lanChalSet('lang','"+l.id+"')\">"+l.name+"</button>").join("");
-  $("lan-chal-count").innerHTML=[5,10,15,20].map(n=>"<button class='seg"+(c.count===n?" on":"")+"' onclick=\"lanChalSet('count',"+n+")\">"+n+" 道</button>").join("");
-  const n=lanCourse(c.lang).length;
-  const r=c.range>n?n:c.range;
-  $("lan-chal-range").innerHTML=Array.from({length:n},(_,i)=>i+1).map(k=>"<button class='seg"+(r===k?" on":"")+"' onclick=\"lanChalSet('range',"+k+")\">"+(k===1?"第1章":"1~"+k+"章")+"</button>").join("");
-  $("lan-chal-kind").innerHTML=[["choice","全选择题"],["code","全实操题"]].map(p=>"<button class='seg"+(c.kind===p[0]?" on":"")+"' onclick=\"lanChalSet('kind','"+p[0]+"')\">"+p[1]+"</button>").join("");
-}
-function lanChalSet(field,val){ LAN.chalCfg[field]=val; lanChalRenderAll(); }
-function lanCourse(lang){ const L=LAN_LANGS.find(x=>x.id===lang); return L?L.course:COURSE; }
-function lanDrawQuestions(lang,count,maxCh,kind){
-  const course=lanCourse(lang);
-  const n=Math.min(maxCh||course.length,course.length);
-  let pool=[];
-  for(let ci=0;ci<n;ci++){ try{ pool=pool.concat(chBank(course[ci])); }catch(e){} }
-  pool=pool.filter(q=>q&&q.type===(kind==="code"?"code":"choice"));
-  pool=shuffle(pool);
-  return pool.slice(0,count).map(q=>q.type==="choice"?shufOpts({q:q.q,o:q.o.slice(),a:q.a,t:q.t,c:q.c,type:"choice"}):{q:q.q,out:q.out,solution:q.solution,explain:q.explain,type:"code",_in:q._in||""});
-}
-async function lanSendChal(){
-  const c=LAN.chalCfg; const peer=LAN.chalPeer;
-  if(!LAN.online){ toast("未连接局域网服务器"); return; }
-  const course=lanCourse(c.lang);
-  const maxCh=Math.min(c.range,course.length);
-  const ok=await lanSend({type:"chal_invite",to:peer,data:{pid:"c"+Date.now().toString(36)+Math.random().toString(36).slice(2,7),cfg:{lang:c.lang,count:c.count,range:maxCh,kind:c.kind}}});
-  closeModal("lan-chal-modal");
-  if(ok) toast("已向 "+peer+" 发起挑战，等待对方接受…");
-}
-function lanOnChalInvite(from,d){
-  if(LAN.battle){ toast(from+" 发来挑战，但你正在对战中，已忽略"); return; }
-  LAN.pendingInvite={kind:"chal",from:from,pid:d.pid,cfg:d.cfg};
-  $("lan-invite-title").textContent="⚔️ 收到答题挑战";
-  $("lan-invite-body").innerHTML="<b>"+esc(from)+"</b> 向你发起答题挑战：<br>"+
-    "语言："+(LAN_LANGS.find(x=>x.id===d.cfg.lang)||{}).name+"<br>"+
-    "题数："+d.cfg.count+" 道<br>"+
-    "章节范围："+(d.cfg.range===1?"第1章":"1~"+d.cfg.range+"章")+"<br>"+
-    "题型："+(d.cfg.kind==="code"?"全实操（写代码）题":"全选择题");
-  $("lan-invite-ok").textContent="接受，开始对战";
-  showModal("lan-invite-modal");
-}
-function lanInviteOk(){
-  const p=LAN.pendingInvite; if(!p) return;
-  closeModal("lan-invite-modal"); LAN.pendingInvite=null;
-  if(p.kind==="chal"){
-    const okSend=lanSend({type:"chal_accept",to:p.from,data:{pid:p.pid}});
-    LAN.battle={pid:p.pid,peer:p.from,lang:p.cfg.lang,count:p.cfg.count,range:p.cfg.range,kind:p.cfg.kind,
-      initiator:false,qs:null,ans:{},codes:{},myScore:null,peerScore:null,peerDone:false,waiting:true};
-    lanOpenBattle();
-  }else{
-    lanSend({type:"game_accept",to:p.from,data:{pid:p.pid}});
-    lanGameStart(p.from,p.pid,false);
-  }
-}
-function lanInviteReject(){
-  const p=LAN.pendingInvite; if(!p) return;
-  closeModal("lan-invite-modal"); LAN.pendingInvite=null;
-  lanSend({type:p.kind==="chal"?"chal_reject":"game_reject",to:p.from,data:{pid:p.pid}});
-  toast("已拒绝邀请");
-}
-function lanInviteDismiss(){ closeModal("lan-invite-modal"); LAN.pendingInvite=null; }
-async function lanOnChalAccept(from,d){
-  const b=LAN.battle;
-  if(!b||b.pid!==d.pid||!b.initiator) return;
-  const qs=lanDrawQuestions(b.lang,b.count,b.range,b.kind);
-  if(!qs.length){ toast("该章节范围题量不足，已通知对方取消"); closeModal("lan-battle-modal"); LAN.battle=null; lanSend({type:"chal_cancel",to:from,data:{pid:d.pid}}); return; }
-  b.qs=qs; b.waiting=false;
-  lanOpenBattle();
-  const ok=await lanSend({type:"chal_questions",to:from,data:{pid:d.pid,qs:qs}});
-  if(!ok){ toast("题组下发失败"); }
-}
-function lanOnChalReject(from,d){ if(LAN.battle&&LAN.battle.pid===d.pid){ closeModal("lan-battle-modal"); LAN.battle=null; toast(from+" 拒绝了挑战"); } }
-function lanOnChalQuestions(from,d){
-  const b=LAN.battle; if(!b||b.pid!==d.pid) return;
-  b.qs=d.qs; b.waiting=false;
-  lanOpenBattle();
-  toast("题组已到，开始作答！");
-}
-function lanOpenBattle(){
-  showModal("lan-battle-modal");
-  const b=LAN.battle; if(!b) return;
-  $("lan-battle-peer").textContent=b.peer;
-  $("lan-battle-sub").textContent=(b.qs?b.qs.length+" 题 · ":"")+((LAN_LANGS.find(x=>x.id===b.lang)||{}).name||"");
-  lanRenderBattleScore();
-  if(b.waiting||!b.qs){
-    $("lan-battle-body").innerHTML="<div class='lan-battle-wait'><div class='spin'></div>"+(b.initiator?"已发送邀请，等待对方接受…":"已接受挑战，等待题组下发…")+"</div>";
-    $("lan-battle-done").style.display="none";
-    return;
-  }
-  if(b.myScore!=null||b.win!==undefined){ return; }
-  $("lan-battle-done").style.display="flex";
-  lanRenderBattleQs();
-}
-function lanRenderBattleQs(){
-  const b=LAN.battle; if(!b||!b.qs) return;
-  $("lan-battle-body").innerHTML="<div class='lan-qlist'>"+b.qs.map((q,i)=>lanQCard(q,i)).join("")+"</div>";
-}
-function lanQCard(q,i){
-  const b=LAN.battle;
-  if(q.type==="code"){
-    return "<div class='lan-qcard'><div class='q-num'>第 "+(i+1)+" 题 · 实操（写代码）</div><div class='q-text'>"+esc(q.q)+"</div>"+
-      "<textarea id='lan-code-"+i+"' placeholder='在这里写代码…'></textarea>"+
-      "<div class='code-ops'><button onclick='lanRunCodeQ("+i+")'>▶ 运行判分</button></div>"+
-      "<div class='q-fb' id='lan-fb-"+i+"'></div></div>";
-  }
-  return "<div class='lan-qcard'><div class='q-num'>第 "+(i+1)+" 题 · 选择题</div><div class='q-text'>"+esc(q.q)+"</div>"+
-    "<div class='opts'>"+q.o.map((o,k)=>"<div class='opt"+(b.ans[i]===k?" sel":"")+"' onclick='lanPick("+i+","+k+")'><span class='k'>"+String.fromCharCode(65+k)+"</span><span class='tx'>"+esc(o)+"</span></div>").join("")+"</div></div>";
-}
-function lanPick(i,k){ LAN.battle.ans[i]=k; lanRenderBattleQs(); }
-async function lanRunCodeQ(i){
-  const b=LAN.battle; if(!b||!b.qs) return;
-  const q=b.qs[i]; const code=($("lan-code-"+i)||{}).value;
-  const fb=$("lan-fb-"+i); if(!fb) return;
-  if(!code||!code.trim()){ fb.className="q-fb bad"; fb.textContent="请先填写代码"; return; }
-  fb.className="q-fb"; fb.textContent="运行判分中…";
-  const saved=curLang; curLang=b.lang;
-  try{
-    const r=await judgeCode(q,code,b.lang,undefined,false);
-    if(r.ok){ b.codes[i]={code:code,ok:true}; fb.className="q-fb ok"; fb.textContent="✔ 判分通过！本题已得分"; }
-    else{ b.codes[i]={code:code,ok:false}; fb.className="q-fb bad"; fb.textContent="✘ "+(JUDGE_TEXT[r.reason]||r.err||"未通过"); }
-  }catch(e){ b.codes[i]={code:code,ok:false}; fb.className="q-fb bad"; fb.textContent="运行异常："+String(e).slice(0,90); }
-  curLang=saved;
-}
-async function lanSubmitBattle(){
-  const b=LAN.battle; if(!b||!b.qs||b.myScore!=null) return;
-  let score=0;
-  for(let i=0;i<b.qs.length;i++){
-    const q=b.qs[i];
-    if(q.type==="code"){
-      if(b.codes[i]&&b.codes[i].ok){ score++; continue; }
-      const code=($("lan-code-"+i)||{}).value;
-      if(!code||!code.trim()) continue;
-      const saved=curLang; curLang=b.lang;
-      try{
-        const r=await judgeCode(q,code,b.lang,undefined,false);
-        if(r.ok){ score++; b.codes[i]={code:code,ok:true}; }
-      }catch(e){}
-      curLang=saved;
-      continue;
-    }
-    if(b.ans[i]!==undefined&&b.ans[i]===q.a) score++;
-  }
-  b.myScore=score;
-  toast("已交卷：你答对 "+score+"/"+b.qs.length);
-  await lanSend({type:"chal_done",to:b.peer,data:{pid:b.pid,score:score}});
-  lanRenderBattleScore();
-  $("lan-battle-done").style.display="none";
-  $("lan-battle-body").innerHTML="<div class='lan-battle-wait'><div class='spin'></div>已交卷，等待对手交卷…</div>";
-  if(b.initiator) lanTryResult();
-}
-function lanRenderBattleScore(){
-  const b=LAN.battle; if(!b||!$("lan-battle-score")) return;
-  let s="我的得分：<b>"+(b.myScore==null?"—":b.myScore)+"</b>";
-  if(b.peerScore!=null) s+="　对手：<b>"+b.peerScore+"</b>";
-  $("lan-battle-score").innerHTML=s;
-}
-function lanOnChalDone(from,d){
-  const b=LAN.battle; if(!b||b.pid!==d.pid) return;
-  b.peerScore=d.score; b.peerDone=true;
-  lanRenderBattleScore();
-  if(b.initiator) lanTryResult();
-}
-function lanTryResult(){
-  const b=LAN.battle;
-  if(b.myScore==null||b.peerScore==null) return;
-  const win=b.myScore>b.peerScore?1:(b.myScore<b.peerScore?-1:0);
-  lanShowResult(win);
-  lanSend({type:"chal_result",to:b.peer,data:{pid:b.pid,myScore:b.myScore,peerScore:b.peerScore,win:win}});
-}
-function lanOnChalResult(from,d){
-  const b=LAN.battle; if(!b||b.pid!==d.pid) return;
-  b.peerScore=d.myScore; b.myScore=d.peerScore;
-  const winForMe=d.win===1?-1:(d.win===-1?1:0);
-  b.win=winForMe;
-  lanShowResult(winForMe);
-}
-function lanShowResult(win){
-  const b=LAN.battle; if(!b) return;
-  b.win=win;
-  $("lan-battle-done").style.display="none";
-  const txt=win===1?"你赢了！":(win===-1?"你输了…":"平局");
-  const col=win===1?"#5ee08a":(win===-1?"#ff5a5a":"#d8e2f5");
-  $("lan-battle-body").innerHTML="<div class='lan-battle-wait'><div style='font-size:32px;margin-bottom:8px'>"+(win===1?"🏆":win===-1?"💥":"🤝")+"</div>"+
-    "<b style='font-size:20px;color:"+col+"'>"+txt+"</b>"+
-    "<div style='margin-top:10px'>你的得分 <b>"+b.myScore+"</b> ／ 对手得分 <b>"+b.peerScore+"</b>"+(b.qs?"（满分 "+b.qs.length+"）":"")+"</div>"+
-    "<div style='margin-top:16px'><button class='btn violet' onclick='lanCloseBattle()'>关闭</button></div></div>";
-  toast("对战结束："+txt+"（"+b.myScore+":"+b.peerScore+"）");
-}
-function lanCloseBattle(){ closeModal("lan-battle-modal"); LAN.battle=null; }
-function lanCancelBattle(){
-  const b=LAN.battle;
-  if(b&&b.peer) lanSend({type:"chal_cancel",to:b.peer,data:{pid:b.pid}});
-  lanCloseBattle(); toast("已退出对战");
-}
-function lanOnChalCancel(from,d){
-  const b=LAN.battle; if(!b||b.pid!==d.pid) return;
-  closeModal("lan-battle-modal"); LAN.battle=null;
-  toast("对方取消了这场对战");
-}
-
-/* ---- 对抗小游戏（CS2 风格 2D FPS） ---- */
-// 掩体布局：双方半场内各有大/小掩体，中缝(47~53)留小掩体限制站位，两侧留有对射弹道
-const MAP_WALLS=[
-  {x:20,y:160,w:14,h:32},{x:80,y:160,w:14,h:32},
-  {x:34,y:210,w:10,h:24},{x:66,y:210,w:10,h:24},
-  {x:30,y:95,w:9,h:20},{x:70,y:95,w:9,h:20},
-  {x:50,y:240,w:6,h:14}
-];
-const GAME_W=760,GAME_H=430,NEAR_Y=332,FAR_Y=82,HIT_R=12,DMG=4;
-function lanGameInvite(peer){
-  if(!LAN.online){ toast("未连接局域网服务器"); return; }
-  if(LAN.game){ toast("已有一局游戏进行中"); return; }
-  lanSend({type:"game_invite",to:peer,data:{pid:"g"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}});
-  toast("已向 "+peer+" 发起游戏邀请，等待接受…");
-}
-function lanOnGameInvite(from,d){
-  if(LAN.game){ toast(from+" 邀请你玩游戏，但你正在对局中，已忽略"); return; }
-  LAN.pendingInvite={kind:"game",from:from,pid:d.pid};
-  $("lan-invite-title").textContent="🎮 收到游戏邀请";
-  $("lan-invite-body").innerHTML="<b>"+esc(from)+"</b> 邀请你进行 <b>对抗小游戏</b>（2D 第一人称射击）<br>双方视角不同、状态实时同步，一决高下！";
-  $("lan-invite-ok").textContent="确定，开战！";
-  showModal("lan-invite-modal");
-}
-function lanOnGameAccept(from,d){ lanGameStart(from,d.pid,true); }
-function lanOnGameReject(from,d){ toast(from+" 拒绝了游戏邀请"); }
-function lanGameStart(peer,pid,isInitiator){
-  if(LAN.battle) lanCloseBattle();
-  const side=isInitiator?0:1;
-  LAN.game={pid:pid,peer:peer,side:side,myX:side===0?25:75,myHp:100,enemyX:side===0?75:25,enemyHp:100,
-    fire:false,keys:{l:false,r:false},started:false,over:false,winner:null,lastTs:Date.now(),count:3,startTs:Date.now()};
-  showModal("lan-game-modal");
-  $("lan-game-me").textContent=LAN.user;
-  $("lan-game-enemy").textContent=peer;
-  $("lan-game-status").textContent="3";
-  if(!LAN.game._iv){ LAN.game._iv=setInterval(lanGameTick,110); }
-  window.addEventListener("keydown",lanKeyDown);
-  window.addEventListener("keyup",lanKeyUp);
-}
-function lanKeyDown(e){
-  if(!LAN.game) return;
-  if(e.key==="ArrowLeft"||e.key==="a"||e.key==="A"){ LAN.game.keys.l=true; e.preventDefault(); }
-  if(e.key==="ArrowRight"||e.key==="d"||e.key==="D"){ LAN.game.keys.r=true; e.preventDefault(); }
-  if(e.key===" "){ LAN.game.fire=true; e.preventDefault(); }
-}
-function lanKeyUp(e){
-  if(!LAN.game) return;
-  if(e.key==="ArrowLeft"||e.key==="a"||e.key==="A") LAN.game.keys.l=false;
-  if(e.key==="ArrowRight"||e.key==="d"||e.key==="D") LAN.game.keys.r=false;
-  if(e.key===" ") LAN.game.fire=false;
-}
-function lanGameKey(dir,down){ if(!LAN.game)return; if(dir===1)LAN.game.keys.l=down; else if(dir===2)LAN.game.keys.r=down; }
-function lanGameFire(down){ if(!LAN.game)return; LAN.game.fire=down; const b=$("lan-game-fire"); if(b)b.classList.toggle("on",down); }
-function lanGameTick(){
-  const g=LAN.game; if(!g) return;
-  if(g.over){ clearInterval(g._iv); g._iv=null; return; }
-  if(!g.started){
-    if(Date.now()-g.startTs>=1000){
-      g.count--; g.startTs=Date.now();
-      if(g.count<=0){ g.started=true; $("lan-game-status").textContent="开战！"; }
-      else $("lan-game-status").textContent=g.count;
-    }
-    lanGameRender();
-    return;
-  }
-  const sp=2.1, lo=g.side===0?5:55, hi=g.side===0?45:95;
-  if(g.keys.l) g.myX=Math.max(lo,g.myX-sp);
-  if(g.keys.r) g.myX=Math.min(hi,g.myX+sp);
-  let dmg=0;
-  if(g.fire&&Math.abs(g.myX-g.enemyX)<HIT_R){
-    const blocked=MAP_WALLS.some(w=>g.myX>=w.x-w.w/2-1.5&&g.myX<=w.x+w.w/2+1.5);
-    if(!blocked) dmg=DMG;
-  }
-  if(Date.now()-g.lastTs>6000){
-    g.over=true; g.winner=1;
-    $("lan-game-status").innerHTML="<b style='color:#5ee08a'>对手已离开，你获胜</b>";
-    lanSend({type:"game_quit",to:g.peer,data:{pid:g.pid}});
-    lanGameRender(); return;
-  }
-  lanSend({type:"game_state",to:g.peer,data:{pid:g.pid,x:g.myX,hp:g.myHp,dmg:dmg,fire:g.fire,ts:Date.now()}});
-  lanGameRender();
-  // 同步快照拉取（对局期间更快看到对方）
-  if(!g._polling){ g._polling=true; lanPoll().then(()=>{ g._polling=false; }); }
-}
-function lanOnGameState(from,d){
-  const g=LAN.game; if(!g||g.pid!==d.pid||g.over) return;
-  g.lastTs=Date.now();
-  g.enemyX=d.x; g.enemyHp=d.hp;
-  if(d.dmg) g.myHp=Math.max(0,g.myHp-d.dmg);
-  $("lan-game-me-bar").style.width=g.myHp+"%";
-  $("lan-game-enemy-bar").style.width=(g.enemyHp)+"%";
-  if(g.myHp<=0){
-    g.over=true; g.winner=-1;
-    $("lan-game-status").innerHTML="<b style='color:#ff5a5a'>你被击倒了…</b>";
-    lanSend({type:"game_over",to:g.peer,data:{pid:g.pid,winner:g.peer}});
-  }else if(g.enemyHp<=0){
-    g.over=true; g.winner=1;
-    $("lan-game-status").innerHTML="<b style='color:#5ee08a'>你击倒了对手！</b>";
-    lanSend({type:"game_over",to:g.peer,data:{pid:g.pid,winner:LAN.user}});
-  }
-  lanGameRender();
-}
-function lanOnGameOver(from,d){
-  const g=LAN.game; if(!g||g.pid!==d.pid) return;
-  g.over=true;
-  g.winner=d.winner===LAN.user?1:-1;
-  $("lan-game-status").innerHTML="<b style='color:"+(g.winner===1?"#5ee08a":"#ff5a5a")+"'>"+(g.winner===1?"🎉 你赢了！":"💥 你输了…")+"</b>";
-  lanGameRender();
-}
-function lanOnGameQuit(from,d){
-  const g=LAN.game; if(!g||g.pid!==d.pid) return;
-  g.over=true; g.winner=1;
-  $("lan-game-status").innerHTML="<b style='color:#5ee08a'>对手已退出，你获胜</b>";
-  lanGameRender();
-}
-function lanGameQuit(){
-  const g=LAN.game;
-  if(g&&!g.over) lanSend({type:"game_quit",to:g.peer,data:{pid:g.pid}});
-  if(g&&g._iv) clearInterval(g._iv);
-  window.removeEventListener("keydown",lanKeyDown);
-  window.removeEventListener("keyup",lanKeyUp);
-  LAN.game=null;
-  closeModal("lan-game-modal");
-}
-function lanGameRender(){
-  const g=LAN.game; if(!g) return;
-  const cv=$("lan-game-cv"); if(!cv) return;
-  const ctx=cv.getContext("2d");
-  const W=cv.width,H=cv.height;
-  const PX=x=>x/100*W;
-  // 背景
-  const grd=ctx.createLinearGradient(0,0,0,H);
-  grd.addColorStop(0,"#10173a"); grd.addColorStop(.55,"#0d1230"); grd.addColorStop(1,"#080b1e");
-  ctx.fillStyle=grd; ctx.fillRect(0,0,W,H);
-  // 星星
-  for(let i=0;i<40;i++){ ctx.fillStyle="rgba(255,255,255,"+(0.15+0.3*Math.sin(i*127.3+Date.now()/300))+")"; ctx.beginPath(); ctx.arc((i*97)%W,(i*53)%(H*0.5),1.1,0,7); ctx.fill(); }
-  // 远端敌人
-  const ex=PX(g.enemyX);
-  ctx.fillStyle="#3a1530"; ctx.fillRect(ex-26,FAR_Y-14,52,30);
-  ctx.fillStyle="#ff5a5a"; ctx.fillRect(ex-16,FAR_Y-6,32,20);
-  ctx.fillStyle="#ffd9c9"; ctx.fillRect(ex-10,FAR_Y,10,8); ctx.fillRect(ex+2,FAR_Y,10,8);
-  // 掩体
-  for(const w of MAP_WALLS){
-    const wx=PX(w.x-w.w/2), ww=w.w/100*W, wy=w.y-w.h/2, wh=w.h;
-    const big=w.w>=12;
-    ctx.fillStyle=big?"#2c3560":"#1d2347";
-    ctx.fillRect(wx,wy,ww,wh);
-    ctx.fillStyle=big?"#4a56a0":"#333c6e";
-    ctx.fillRect(wx,wy,ww,3);
-    if(big){ ctx.fillStyle="rgba(143,123,255,.25)"; ctx.fillRect(wx-2,wy-2,ww+4,wh+4); }
-  }
-  // 自己（第一人称：近端枪口视角）
-  const mx=PX(g.myX);
-  ctx.fillStyle="#0f2c18"; ctx.fillRect(mx-30,NEAR_Y-8,60,22);
-  ctx.fillStyle="#3ecf6f"; ctx.fillRect(mx-18,NEAR_Y,36,12);
-  ctx.fillStyle="#0c1024"; ctx.fillRect(mx-9,NEAR_Y+2,18,8);
-  // 枪管
-  ctx.fillStyle="#5a6cff"; ctx.fillRect(mx-3,NEAR_Y-34,6,28);
-  // 准星
-  ctx.strokeStyle="#7ee8a2"; ctx.lineWidth=1.5;
-  const cy=NEAR_Y-26;
-  ctx.beginPath(); ctx.moveTo(mx-8,cy); ctx.lineTo(mx+8,cy); ctx.moveTo(mx,cy-8); ctx.lineTo(mx,cy+8); ctx.stroke();
-  // 开火弹道
-  if(g.fire&&g.started){
-    ctx.strokeStyle="rgba(255,210,120,.85)"; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(mx,cy); ctx.lineTo(ex,FAR_Y+6); ctx.stroke();
-    ctx.strokeStyle="rgba(255,210,120,.3)"; ctx.lineWidth=6;
-    ctx.beginPath(); ctx.moveTo(mx,cy); ctx.lineTo(ex,FAR_Y+6); ctx.stroke();
-  }
-  // 命中的火花
-  if(g.fire&&Math.abs(g.myX-g.enemyX)<HIT_R&&!MAP_WALLS.some(w=>g.myX>=w.x-w.w/2-1.5&&g.myX<=w.x+w.w/2+1.5)){
-    ctx.fillStyle="rgba(255,120,60,.9)";
-    ctx.beginPath(); ctx.arc(ex,FAR_Y,7,0,7); ctx.fill();
-  }
-  // 敌方命中我方方向（对方子弹若可见：简化省略）
-  ctx.fillStyle="rgba(180,200,255,.12)"; ctx.fillRect(0,NEAR_Y+14,W,2);
-}
-//===LAN_END===
 </script>
 
-
-<!-- ===== 局域网好友互动系统 ===== -->
-<!-- 好友面板 -->
-<div class="overlay" id="lan-friends-modal">
-  <div class="modal" style="max-width:560px">
-    <div class="m-head"><span class="tt">👥 好友 · 局域网</span><button class="m-close" onclick="closeModal('lan-friends-modal')">×</button></div>
-    <div class="lan-status" id="lan-status"><span class="dot"></span><span id="lan-status-text">正在连接…</span><b id="lan-status-url" style="margin-left:4px"></b><button class="lan-top-btn" style="margin-left:auto;padding:5px 10px;font-size:11.5px" onclick="lanOpenSet()">设置</button></div>
-    <div class="lan-tip" id="lan-tip" style="display:none">未连接局域网服务器，请先在主机运行启动脚本 <b>「启动局域网服务器.bat」</b>（双击即可），然后在设置里填入主机地址（另一台电脑填 <b>http://主机IP:8000</b>）。</div>
-    <div class="lan-search"><input id="lan-search" placeholder="搜索在线好友…" oninput="lanRenderFriends()"></div>
-    <div class="lan-online-list" id="lan-online-list"></div>
-  </div>
-</div>
-
-<!-- 服务器设置 -->
-<div class="overlay" id="lan-set-modal">
-  <div class="modal" style="max-width:440px">
-    <div class="m-head"><span class="tt">局域网服务器设置</span><button class="m-close" onclick="closeModal('lan-set-modal')">×</button></div>
-    <div class="lan-field"><div class="lab">服务器地址（如 <b>http://192.168.1.5:8000</b>）</div>
-      <input id="lan-set-url" style="width:100%;background:#0a0f22;border:1px solid var(--line);border-radius:12px;color:#d8e2f5;font-size:14px;padding:11px 13px;box-sizing:border-box;outline:none;font-family:inherit" placeholder="http://主机IP:8000">
-    </div>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn violet" style="flex:1" onclick="lanSaveSet()">保存并连接</button>
-      <button class="btn" style="flex:1" onclick="closeModal('lan-set-modal')">取消</button>
-    </div>
-    <p style="font-size:12px;color:var(--ink3);margin-top:10px;line-height:1.7">同一台电脑打开网页时默认自动连接 <b>http://&lt;本机名&gt;:8000</b>；换电脑访问需填主机地址。</p>
-  </div>
-</div>
-
-<!-- 聊天窗（浮动，可收起） -->
-<div id="lan-chat-min" class="lan-chat-min" style="display:none" onclick="lanRestoreChat()">💬 聊天<span class="lan-badge" id="lan-chat-badge" style="display:none">0</span></div>
-<div id="lan-chat" class="lan-chat" style="display:none">
-  <div class="c-head">
-    <span class="avatar" id="lan-chat-ava">?</span>
-    <span class="nm" id="lan-chat-peer">好友</span>
-    <button title="收起" onclick="lanMinChat()">—</button>
-    <button title="关闭" onclick="lanCloseChat()">×</button>
-  </div>
-  <div class="c-body" id="lan-chat-body"></div>
-  <div class="c-foot">
-    <input id="lan-chat-input" placeholder="说点什么…" onkeydown="if(event.key==='Enter')lanSendChat()">
-    <button onclick="lanSendChat()">发送</button>
-  </div>
-</div>
-
-<!-- 答题挑战：发起配置 -->
-<div class="overlay" id="lan-chal-modal">
-  <div class="modal" style="max-width:500px">
-    <div class="m-head"><span class="tt">⚔️ 发起答题挑战</span><button class="m-close" onclick="closeModal('lan-chal-modal')">×</button></div>
-    <div class="lan-field"><div class="lab">挑战对象：<b id="lan-chal-peer">—</b></div></div>
-    <div class="lan-field"><div class="lab">编程语言</div>
-      <div class="lan-seg" id="lan-chal-lang"></div>
-    </div>
-    <div class="lan-field"><div class="lab">题数</div>
-      <div class="lan-seg" id="lan-chal-count"></div>
-    </div>
-    <div class="lan-field"><div class="lab">章节范围（由易到难逐级递增）</div>
-      <div class="lan-seg" id="lan-chal-range"></div>
-    </div>
-    <div class="lan-field"><div class="lab">题型</div>
-      <div class="lan-seg" id="lan-chal-kind"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn violet" style="flex:1" onclick="lanSendChal()">发送挑战邀请</button>
-      <button class="btn" style="flex:1" onclick="closeModal('lan-chal-modal')">取消</button>
-    </div>
-  </div>
-</div>
-
-<!-- 邀请弹窗（接收方：挑战 / 游戏） -->
-<div class="overlay" id="lan-invite-modal">
-  <div class="modal" style="max-width:460px">
-    <div class="m-head"><span class="tt" id="lan-invite-title">收到邀请</span><button class="m-close" onclick="lanInviteDismiss()">×</button></div>
-    <div id="lan-invite-body" style="font-size:14px;color:#d8e2f5;line-height:1.8;margin-bottom:14px"></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn violet" style="flex:1" id="lan-invite-ok" onclick="lanInviteOk()">接受</button>
-      <button class="btn danger" style="flex:1" onclick="lanInviteReject()">拒绝</button>
-    </div>
-  </div>
-</div>
-
-<!-- 答题对战弹窗 -->
-<div class="overlay" id="lan-battle-modal">
-  <div class="modal" style="max-width:680px">
-    <div class="lan-battle-head">
-      <div><div class="tt">⚔️ 答题对战 <span id="lan-battle-sub" style="font-size:12px;color:var(--ink2);font-weight:700"></span></div>
-      <div class="vs">对手：<b id="lan-battle-peer">—</b></div></div>
-      <div class="lan-battle-score" id="lan-battle-score"></div>
-    </div>
-    <div id="lan-battle-body"></div>
-    <div id="lan-battle-done" style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn violet" style="flex:1" onclick="lanSubmitBattle()">交卷判分</button>
-      <button class="btn danger" onclick="lanCancelBattle()">退出对战</button>
-    </div>
-  </div>
-</div>
-
-<!-- 对抗小游戏（CS2 风格） -->
-<div class="overlay" id="lan-game-modal">
-  <div class="modal" style="max-width:760px;padding:20px">
-    <div class="m-head"><span class="tt">🔫 对抗小游戏 <span style="font-size:11.5px;color:var(--ink2)">2D 第一人称射击 · 双方视角实时同步</span></span><button class="m-close" onclick="lanGameQuit()">×</button></div>
-    <div class="lan-game-box">
-      <div class="lan-hud">
-        <div class="hp"><div class="nm" id="lan-game-me">我</div><div class="bar"><i id="lan-game-me-bar" style="width:100%"></i></div></div>
-        <div class="mid" id="lan-game-status">等待对手…</div>
-        <div class="hp r"><div class="nm" id="lan-game-enemy">对手</div><div class="bar"><i id="lan-game-enemy-bar" style="width:100%"></i></div></div>
-      </div>
-      <canvas id="lan-game-cv" width="760" height="430"></canvas>
-      <div class="lan-game-ctrl" id="lan-game-ctrl">
-        <button id="lan-game-left" onmousedown="lanGameKey(1,true)" ontouchstart="event.preventDefault();lanGameKey(1,true)" onmouseup="lanGameKey(1,false)" ontouchend="event.preventDefault();lanGameKey(1,false)" onmouseleave="lanGameKey(1,false)">← 左移</button>
-        <button id="lan-game-fire" class="fire" onmousedown="lanGameFire(true)" ontouchstart="event.preventDefault();lanGameFire(true)" onmouseup="lanGameFire(false)" ontouchend="event.preventDefault();lanGameFire(false)" onmouseleave="lanGameFire(false)">🔫 开火</button>
-        <button id="lan-game-right" onmousedown="lanGameKey(2,true)" ontouchstart="event.preventDefault();lanGameKey(2,true)" onmouseup="lanGameKey(2,false)" ontouchend="event.preventDefault();lanGameKey(2,false)" onmouseleave="lanGameKey(2,false)">右移 →</button>
-      </div>
-      <div class="lan-game-hint">←/→ 或 A/D 左右移动，按住开火持续射击、松开停止。掩体可挡子弹，注意找掩体还击。</div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
