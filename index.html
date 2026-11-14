@@ -417,7 +417,7 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
   .acct-grid{grid-template-columns:1fr}
   .ch-grid{grid-template-columns:1fr}
   .lang-grid{grid-template-columns:1fr}
-  .exam-code textarea,.kp-prac textarea,.quiz-code textarea{font-size:16px}
+  .exam-code textarea,.kp-prac textarea,.quiz-code textarea,.term-input{font-size:16px}
   /* 整屏测试页窄屏适配：标题/元信息换行不被裁，题号与操作按钮允许折行 */
   .exam-head{flex-wrap:wrap;gap:10px}
   .exam-title{min-width:0;flex:1 1 auto;font-size:17px}
@@ -838,10 +838,10 @@ html[data-lang="cpp"]{--acc1:#5ab0ff;--acc2:#1f6fff}
 <canvas id="confetti"></canvas>
 <div id="toast"></div>
 
-<!-- 浏览器内运行 Python 的引擎（本地文件，离线可用） -->
-<script src="skulpt.min.js"></script>
-<script src="skulpt-stdlib.js"></script>
-<script src="jscpp.bundle.js"></script>
+<!-- 浏览器内运行 Python 的引擎（本地文件，离线可用；defer 不阻塞首屏解析，运行时按需调用） -->
+<script src="skulpt.min.js" defer></script>
+<script src="skulpt-stdlib.js" defer></script>
+<script src="jscpp.bundle.js" defer></script>
 <script>
 "use strict";
 /* ================================================================
@@ -3586,7 +3586,7 @@ function persist(){
   const toSave={accounts:{},current:null};
   Object.keys(SAVE.accounts).forEach(n=>{toSave.accounts[n]=SAVE.accounts[n]});
   if(SAVE.current&&SAVE.accounts[SAVE.current])toSave.current=SAVE.current;
-  localStorage.setItem(KEY,JSON.stringify(toSave));
+  try{localStorage.setItem(KEY,JSON.stringify(toSave))}catch(e){}
 }
 function getAcctAll(){return SAVE&&SAVE.current?SAVE.accounts[SAVE.current]:null}
 /* 返回当前账号在【当前语言】下的进度对象（忽略传入参数以兼容旧调用） */
@@ -5099,7 +5099,6 @@ function materialize(kp){
 }
 function secBank(sec){return sec.kps.reduce((a,kp)=>a.concat(materialize(kp)),[]).concat(sec.extra||[])}
 function chBank(ch){return ch.sections.reduce((a,sec)=>a.concat(secBank(sec)),[]).concat(ch.extra||[])}
-function bankCount(){let n=0;COURSE.forEach(ch=>{ch.sections.forEach(sec=>{sec.kps.forEach(kp=>{n+=materialize(kp).length})});n+=(ch.extra||[]).length;ch.sections.forEach(sec=>n+=(sec.extra||[]).length)});return n}
 
 /* ---------- 星星 / 升级 ---------- */
 function addPoints(delta,msg){
@@ -5580,9 +5579,6 @@ function smartEditor(el){
     }
   });
 }
-function bindEditorsIn(root){
-  (root||document).querySelectorAll("textarea[data-code='1']").forEach(el=>{if(!el._smart){el._smart=1;smartEditor(el)}});
-}
 function normOut(s){return String(s||"").trim().split(/\r?\n/).map(l=>l.trim()).join("\n").replace(/, /g,",")}
 
 /* ================= 代码题判分引擎：防写死答案 + 参考解差分测试 =================
@@ -6005,8 +6001,9 @@ function reLearnChapter(chId,title,score,wrongHtml){
 function goChapter(chId){curChapter=chId;renderLearn(chId);show("screen-learn")}
 
 /* ---------- 退出 / 切换 / 重置 ---------- */
-function logout(){SAVE.current=null;persist();show("screen-login")}
-function switchAcc(){SAVE.current=null;persist();renderLogin();show("screen-login")}
+function stopAudio(){const a=$("sg-audio");if(a){try{a.pause()}catch(e){}}}
+function logout(){stopAudio();SAVE.current=null;persist();show("screen-login")}
+function switchAcc(){stopAudio();SAVE.current=null;persist();renderLogin();show("screen-login")}
 let delTarget=null;
 function askDeleteAcc(){
   delTarget=SAVE.current;
@@ -6015,6 +6012,7 @@ function askDeleteAcc(){
 }
 function doDeleteAcc(){
   if(!delTarget)return;
+  stopAudio();
   delete SAVE.accounts[delTarget];
   if(SAVE.current===delTarget)SAVE.current=null;
   persist();
@@ -6313,11 +6311,6 @@ function examPick(i,k){
   opts.querySelectorAll(".opt").forEach(el=>el.classList.remove("sel"));
   $("exam-opt-"+k).classList.add("sel");
   renderExamNav();
-}
-function examRenderResult(){
-  const q=exam.qs[exam.i],i=exam.i;
-  if(q.type!=="code")return;
-  renderExamFb(i);
 }
 function renderExamFb(i){
   const r=exam.codes[i],fb=$("exam-fb");
